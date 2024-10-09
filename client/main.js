@@ -26,10 +26,12 @@ function update(scrollPercent) {
     lastPage = page;
   }
 
+  const linear = (x) => 0.5 * x + 0.5;
+
   let scale = 1;
   for (let i = 0; i < N - page; i++) {
     $("#page" + (page + i)).css({
-      transform: "scale(" + 1 / (-scrollPercent * 4 + page + i + 1) + ")",
+      transform: "scale(" + 1 / linear(-scrollPercent * 4 + page + i + 1) + ")",
     });
     scale /= 3;
   }
