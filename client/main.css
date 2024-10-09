@@ -1,12 +1,18 @@
-html,
-body {
+* {
     padding: 0;
     margin: 0;
+    box-sizing: border-box;
+}
+
+html,
+body {
+    height: 100%;
 }
 
 .scroll_page {
     height: 100vh;
-    border: 2px solid black;
+    /*border: 2px solid black;*/
+    background-color: rgb(19, 66, 66);
 }
 
 .pages {
@@ -25,37 +31,75 @@ body {
     left: 0;
     transform-origin: center;
     transform: scale(1);
+}
+
+.bgr {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
     background-repeat: no-repeat;
     background-attachment: fixed;
     background-size: 100% 100%;
 }
 
+.content {
+    /*position: absolute;*/
+    padding: 20rem;
+    color: white;
+    font-size: large;
+    display: flex;
+    align-items: center;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgb(23, 88, 88);
+    opacity: 0.9;
+}
+
 #page0 {
     /*background-color: red;*/
     z-index: 5;
+}
+
+#page0 .bgr {
     background-image: url("./media/frame1.png");
 }
 
 #page1 {
     /*background-color: green;*/
     z-index: 4;
+}
+
+#page1 .bgr {
     background-image: url("./media/frame2.png");
 }
 
 #page2 {
     /*background-color: blue;*/
     z-index: 3;
+}
+
+#page2 .bgr {
     background-image: url("./media/frame3.png");
 }
 
 #page3 {
     /*background-color: yellow;*/
     z-index: 2;
+}
+
+#page3 .bgr {
     background-image: url("./media/frame4.png");
 }
 
 #page4 {
     /*background-color: white;*/
     z-index: 1;
+}
+
+#page4 .bgr {
     background-image: url("./media/frame5.png");
 }

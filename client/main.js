@@ -27,21 +27,20 @@ function update() {
     transform: "scale(" + (position / 100 + 0.5) + ")",
   });*/
 
-  const distFromTop =
-    (N - 1) * scrollPercent - Math.floor((N - 1) * scrollPercent);
-
   let scale = 1;
-  console.log(distFromTop);
   for (let i = 0; i < N - page; i++) {
     $("#page" + (page + i)).css({
-      transform: "scale(" + 1 / (scrollPercent * 4 - page - i - 1) + ")",
+      transform: "scale(" + 1 / (-scrollPercent * 4 + page + i + 1) + ")",
     });
     scale /= 3;
   }
 
+  $("#page" + page).css({ opacity: Math.min(1, 1 - 2 * dist) });
+
   for (let i = 0; i < page; i++) {
+    //console.log(page, 1 - scrollPercent * 4 + page + i);
     $("#page" + i).css({
-      transform: "scale(" + 0 + ")",
+      transform: "scale(0)",
     });
   }
 }
