@@ -45,7 +45,7 @@ body {
 }
 
 .content {
-    /*position: absolute;*/
+    box-shadow: 0 0 200px rgba(0, 0, 0, 0.9) inset;
     padding: 20rem;
     color: white;
     font-size: large;
