@@ -1,31 +1,30 @@
 let scrolling = false;
+let lastPage = 0;
 const N = 5;
 
-$(window).scroll(update);
-update();
-
-function update() {
+$(window).scroll(() => {
   var s = $(this).scrollTop(),
     d = $(document).height(),
     c = $(this).height();
+  update(s / (d - c));
+});
 
-  scrollPercent = s / (d - c);
+update(scrollPercent);
+
+function update(scrollPercent) {
   const page = Math.round((N - 1) * scrollPercent);
   const dist = (N - 1) * scrollPercent - page;
-  if (scrolling && Math.abs(dist) < 0.2) {
+  if (scrolling && Math.abs(dist) < 0.3) {
     document
       .getElementById("scroll_page" + page)
       .scrollIntoView({ behavior: "smooth" });
     scrolling = false;
   }
 
-  if (Math.abs(dist) > 0.2) {
+  if (Math.abs(dist) > 0.3 || lastPage != page) {
     scrolling = true;
+    lastPage = page;
   }
-
-  /*$horizontal.css({
-    transform: "scale(" + (position / 100 + 0.5) + ")",
-  });*/
 
   let scale = 1;
   for (let i = 0; i < N - page; i++) {
@@ -38,7 +37,6 @@ function update() {
   $("#page" + page).css({ opacity: Math.min(1, 1 - 2 * dist) });
 
   for (let i = 0; i < page; i++) {
-    //console.log(page, 1 - scrollPercent * 4 + page + i);
     $("#page" + i).css({
       transform: "scale(0)",
     });
