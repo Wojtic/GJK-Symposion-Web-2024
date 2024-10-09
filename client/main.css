@@ -1,0 +1,61 @@
+html,
+body {
+    padding: 0;
+    margin: 0;
+}
+
+.scroll_page {
+    height: 100vh;
+    border: 2px solid black;
+}
+
+.pages {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+}
+
+.page {
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    transform-origin: center;
+    transform: scale(1);
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: 100% 100%;
+}
+
+#page0 {
+    /*background-color: red;*/
+    z-index: 5;
+    background-image: url("./media/frame1.png");
+}
+
+#page1 {
+    /*background-color: green;*/
+    z-index: 4;
+    background-image: url("./media/frame2.png");
+}
+
+#page2 {
+    /*background-color: blue;*/
+    z-index: 3;
+    background-image: url("./media/frame3.png");
+}
+
+#page3 {
+    /*background-color: yellow;*/
+    z-index: 2;
+    background-image: url("./media/frame4.png");
+}
+
+#page4 {
+    /*background-color: white;*/
+    z-index: 1;
+    background-image: url("./media/frame5.png");
+}

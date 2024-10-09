@@ -1,88 +1,28 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-
-<style>
-    #hori{
-    position: fixed;
-    width: 200px;
-  
-    left: 50vw;
-    top: 50vh;
-    height: 200px;
-    background-color: blue;
-}
-#hori2{
-    position: fixed;
-    width: 200px;
-    right: 0;
-    top: 10px;
-    height: 200px;
-   
-}
-#heart{
-    z-index: 100;position: absolute;top:0px;right:720px;color:red;display:block
-}
-#sec{height:200vh;position:relative}
-</style>
-<title>Document</title>
-</head>
-<body>
-    <section style="margin:0 auto;width:1000px;height:100%"  >
-    <div id="sec"></div>
-    
-
-    <div id="hori">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <link rel="stylesheet" href="main.css" />
+    <script src="main.js" defer></script>
+    <title>Replika</title>
+  </head>
+  <body>
+    <div id="scrollable">
+      <div class="scroll_page" id="scroll_page0"></div>
+      <div class="scroll_page" id="scroll_page1"></div>
+      <div class="scroll_page" id="scroll_page2"></div>
+      <div class="scroll_page" id="scroll_page3"></div>
+      <div class="scroll_page" id="scroll_page4"></div>
     </div>
-        <div id="hori2">
-        
-    </div>
-    <div id="heartsec" >
-        <div id="heart" >
-        </div>
-    </div>
-    </section>
 
-    <script>
-        var $horizontal = $('#hori');
-    var $heart = $('#heart');
-    var $horizontal2 = $('#hori2');
-    $(window).scroll(function () {
-        var s = $(this).scrollTop(),
-            d = $(document).height(),
-            c = $(this).height();
-    
-        scrollPercent = (s / (d - c));
-    
-        var position = (scrollPercent * ($(document).width()/2 - $horizontal.width()));
-        var position = (scrollPercent * ($(document).width()/2 - $horizontal2.width()));
-        
-        
-    
-        $horizontal.css({
-            'transform': 'scale(' + (position/100 + 0.5) + ')'
-        });
-        
-        $horizontal2.css({
-            'right': position
-        });
-      
-        if(s>400){
-    $heart.css({
-     'OPACITY': '1'
-    })
-    
-        } 
-               if(s<400){
-    $heart.css({
-     'opacity': '1'
-    })
-        }
-    
-    });
-    </script>
-</body>
+    <div class="pages">
+      <div class="page" id="page0"></div>
+      <div class="page" id="page1"></div>
+      <div class="page" id="page2"></div>
+      <div class="page" id="page3"></div>
+      <div class="page" id="page4"></div>
+    </div>
+  </body>
 </html>
