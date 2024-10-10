@@ -31,6 +31,7 @@ function update(scrollPercent) {
   let scale = 1;
   for (let i = 0; i < N - page; i++) {
     $("#page" + (page + i)).css({
+      display: "inherit",
       transform: "scale(" + 1 / linear(-scrollPercent * 4 + page + i + 1) + ")",
     });
     scale /= 3;
@@ -40,7 +41,7 @@ function update(scrollPercent) {
 
   for (let i = 0; i < page; i++) {
     $("#page" + i).css({
-      transform: "scale(0)",
+      display: "none",
     });
   }
 }
