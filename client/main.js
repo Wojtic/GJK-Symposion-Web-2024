@@ -2,14 +2,19 @@ let scrolling = false;
 let lastPage = 0;
 const N = 5;
 
-$(window).scroll(() => {
-  var s = $(this).scrollTop(),
-    d = $(document).height(),
-    c = $(this).height();
-  update(s / (d - c));
+document.addEventListener("scroll", (event) => {
+  update(getScrollPercent());
 });
 
-update(scrollPercent);
+function getScrollPercent() {
+  var h = document.documentElement,
+    b = document.body,
+    st = "scrollTop",
+    sh = "scrollHeight";
+  return (h[st] || b[st]) / ((h[sh] || b[sh]) - h.clientHeight);
+}
+
+update(getScrollPercent());
 
 function update(scrollPercent) {
   const page = Math.round((N - 1) * scrollPercent);
@@ -30,18 +35,18 @@ function update(scrollPercent) {
 
   let scale = 1;
   for (let i = 0; i < N - page; i++) {
-    $("#page" + (page + i)).css({
-      display: "inherit",
-      transform: "scale(" + 1 / linear(-scrollPercent * 4 + page + i + 1) + ")",
-    });
+    document.querySelector("#page" + (page + i)).style.display = "inherit";
+    document.querySelector("#page" + (page + i)).style.transform =
+      "scale(" + 1 / linear(-scrollPercent * 4 + page + i + 1) + ")";
     scale /= 3;
   }
 
-  $("#page" + page).css({ opacity: Math.min(1, 1 - 2 * dist) });
+  document.querySelector("#page" + page).style.opacity = Math.min(
+    1,
+    1 - 2 * dist
+  );
 
   for (let i = 0; i < page; i++) {
-    $("#page" + i).css({
-      display: "none",
-    });
+    document.querySelector("#page" + i).style.display = "none";
   }
 }
