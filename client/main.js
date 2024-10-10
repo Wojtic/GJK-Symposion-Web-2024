@@ -6,6 +6,12 @@ document.addEventListener("scroll", (event) => {
   update(getScrollPercent());
 });
 
+window.onload = () => {
+  document
+    .getElementById("scroll_page4")
+    .scrollIntoView({ behavior: "smooth" });
+};
+
 function getScrollPercent() {
   var h = document.documentElement,
     b = document.body,
@@ -17,19 +23,9 @@ function getScrollPercent() {
 update(getScrollPercent());
 
 function update(scrollPercent) {
+  scrollPercent = 1 - scrollPercent;
   const page = Math.round((N - 1) * scrollPercent);
   const dist = (N - 1) * scrollPercent - page;
-  if (scrolling && Math.abs(dist) < 0.3) {
-    document
-      .getElementById("scroll_page" + page)
-      .scrollIntoView({ behavior: "smooth" });
-    scrolling = false;
-  }
-
-  if (Math.abs(dist) > 0.3 || lastPage != page) {
-    scrolling = true;
-    lastPage = page;
-  }
 
   const linear = (x) => 0.5 * x + 0.5;
 
