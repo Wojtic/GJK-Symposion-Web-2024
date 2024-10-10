@@ -16,7 +16,6 @@ body {
 
 .scroll_page {
     height: 100vh;
-    /*border: 2px solid black;*/
     background-color: rgb(19, 66, 66);
     scroll-snap-align: start;
 }
@@ -69,7 +68,7 @@ body {
 }
 
 .content {
-    padding: 20rem;
+    padding: 15vh 15vw;
     color: white;
     font-size: large;
     display: flex;
