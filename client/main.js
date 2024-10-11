@@ -1,6 +1,6 @@
 let scrolling = false;
 let lastPage = 0;
-const N = 5;
+const N = 5*2-1;
 
 let cursorX = 0;
 let cursorY = 0;
@@ -18,7 +18,18 @@ document.addEventListener("scroll", (event) => {
   update(getScrollPercent());
 });
 
+function copyPage() {
+  toPaste = document.getElementsByClassName("copy");
+  for(var i=0; i<toPaste.length; i++){
+    toPaste[i].innerHTML = document
+      .getElementById(toPaste[i].id.split("_")[2])
+      .innerHTML;
+    toPaste[i].id = toPaste[i].id.split("_")[0];
+  }
+}
+
 window.onload = () => {
+  copyPage();
   document
     .getElementById("scroll_page4")
     .scrollIntoView({ behavior: "smooth" });
@@ -58,15 +69,16 @@ function update(scrollPercent) {
   const linear = (x) => 0.5 * x + 0.5;
 
   let scale = 1;
-  for (let i = 0; i < N - page; i++) {
+  for (var i = 0; i < N - page; i++) {
     document.querySelector("#page" + (page + i)).style.display = "inherit";
+    console.log("#page" + (page + i));
     document.querySelector("#page" + (page + i)).style.translate =
       Math.round(-cursorX * vw * i * 0.05) +
       "px " +
       Math.round(-cursorY * vh * i * 0.05) +
       "px";
     document.querySelector("#page" + (page + i)).style.transform =
-      "scale(" + 1 / linear(-scrollPercent * 4 + page + i + 1) + ")";
+      "scale(" + 1 / linear(-scrollPercent * (N-1) + page + i + 1) + ")";
     scale /= 3;
   }
 
