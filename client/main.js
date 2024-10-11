@@ -21,9 +21,7 @@ document.addEventListener("scroll", (event) => {
 function copyPage() {
   toPaste = document.getElementsByClassName("copy");
   for(var i=0; i<toPaste.length; i++){
-    toPaste[i].innerHTML = document
-      .getElementById(toPaste[i].id.split("_")[2])
-      .innerHTML;
+    toPaste[i].innerHTML = document.getElementById(toPaste[i].id.split("_")[2]).innerHTML;
     toPaste[i].id = toPaste[i].id.split("_")[0];
   }
 }
@@ -32,7 +30,14 @@ window.onload = () => {
   copyPage();
   document
     .getElementById("scroll_page4")
-    .scrollIntoView({ behavior: "smooth" });
+    .scrollIntoView();
+  update(getScrollPercent());
+  cover = document.getElementById("cover");
+  cover.style.animation = "fade_out 1s linear 1";
+  cover.addEventListener('animationend', () => {
+    cover.style.display = "none";
+    document.documentElement.style.scrollBehavior = "smooth";
+  });
 };
 
 document.onmousemove = handleMouseMove;
@@ -59,8 +64,6 @@ function getScrollPercent() {
   return (h[st] || b[st]) / ((h[sh] || b[sh]) - h.clientHeight);
 }
 
-update(getScrollPercent());
-
 function update(scrollPercent) {
   scrollPercent = 1 - scrollPercent;
   const page = Math.round((N - 1) * scrollPercent);
@@ -71,7 +74,6 @@ function update(scrollPercent) {
   let scale = 1;
   for (var i = 0; i < N - page; i++) {
     document.querySelector("#page" + (page + i)).style.display = "inherit";
-    console.log("#page" + (page + i));
     document.querySelector("#page" + (page + i)).style.translate =
       Math.round(-cursorX * vw * i * 0.05) +
       "px " +
