@@ -46,33 +46,75 @@ body {
     left: 0;
 }
 
-.img {
+.frame {
     width: 100%;
     height: 100%;
-    position: absolute;
-    top: 0;
-    left: 0;
-    background-repeat: no-repeat;
-    background-attachment: fixed;
-    background-size: 100% 100%;
-}
-
-.effects {
     box-shadow: 0 0 200px rgba(0, 0, 0, 0.9) inset;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
     background-color: rgb(23, 88, 88);
     opacity: 0.9;
 }
 
+.frame .vertical {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.frame .horizontal {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.frame .right, .frame .left {
+    min-width: 8vh;
+    height: 100%;
+    background-image: url("./media/frame_vertical.png");
+    background-size: 100% 100%;
+}
+
+.frame .top, .frame .bottom {
+    width: 100%;
+    min-height: 8vh;
+    display: flex;
+    flex-direction: row;
+}
+
+.frame .middle {
+    width: 100%;
+    height: 100%;
+    background-image: url("./media/frame_middle.png");
+    background-size: 100% 100%;
+}
+
+.frame .c_top_left, .frame .c_bottom_right {
+    min-width: 8vh;
+    height: 100%;
+    background-image: url("./media/frame_corner_1.png");
+    background-size: 100% 100%;
+}
+
+.frame .c_top_right, .frame .c_bottom_left {
+    min-width: 8vh;
+    height: 100%;
+    background-image: url("./media/frame_corner_2.png");
+    background-size: 100% 100%;
+}
+
 .content {
-    padding: 15vh 15vw;
+    padding: 20px;
     color: white;
     font-size: large;
     display: flex;
+    flex-direction: column;
     align-items: center;
+    justify-content: center;
     top: 0;
     left: 0;
     width: 100%;
