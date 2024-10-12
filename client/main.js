@@ -1,16 +1,19 @@
 let scrolling = false;
 let lastPage = 0;
-const N = 5*2-1;
+const N = 7*2-1;
 
 let cursorX = 0;
 let cursorY = 0;
 
+const body = document.body;
+const html = document.documentElement;
+
 let vw = Math.max(
-  document.documentElement.clientWidth || 0,
+  html.clientWidth || 0,
   window.innerWidth || 0
 );
 let vh = Math.max(
-  document.documentElement.clientHeight || 0,
+  html.clientHeight || 0,
   window.innerHeight || 0
 );
 
@@ -20,34 +23,47 @@ document.addEventListener("scroll", (event) => {
 
 function copyPage() {
   toPaste = document.getElementsByClassName("copy");
-  for(var i=0; i<toPaste.length; i++){
+  for(var i = 0; i < toPaste.length; i++){
     toPaste[i].innerHTML = document.getElementById(toPaste[i].id.split("_")[2]).innerHTML;
     toPaste[i].id = toPaste[i].id.split("_")[0];
   }
 }
 
-window.onload = () => {
+function assignZIndex() {
+  pages = document.getElementsByClassName("page");
+  console.log(pages);
+  for(var i = 0; i < pages.length; i++){
+    pages[i].style.zIndex = (pages.length - i + 4).toString();
+  }
+}
+
+document.addEventListener("DOMContentLoaded", function(event) { 
+  if ('scrollRestoration' in history) {
+    history.scrollRestoration = 'manual';
+  }
   copyPage();
+  html.style.scrollBehavior = "initial";
   document
-    .getElementById("scroll_page4")
+    .getElementById("scroll_page5")
     .scrollIntoView();
+  html.style.scrollBehavior = "smooth";
+  assignZIndex();
   update(getScrollPercent());
   cover = document.getElementById("cover");
   cover.style.animation = "fade_out 1s linear 1";
   cover.addEventListener('animationend', () => {
     cover.style.display = "none";
-    document.documentElement.style.scrollBehavior = "smooth";
   });
-};
+});
 
 document.onmousemove = handleMouseMove;
 function handleMouseMove(event) {
   vw = Math.max(
-    document.documentElement.clientWidth || 0,
+    html.clientWidth || 0,
     window.innerWidth || 0
   );
   vh = Math.max(
-    document.documentElement.clientHeight || 0,
+    html.clientHeight || 0,
     window.innerHeight || 0
   );
   cursorX = event.clientX / vw - 0.5;
@@ -57,8 +73,8 @@ function handleMouseMove(event) {
 }
 
 function getScrollPercent() {
-  var h = document.documentElement,
-    b = document.body,
+  var h = html,
+    b = body,
     st = "scrollTop",
     sh = "scrollHeight";
   return (h[st] || b[st]) / ((h[sh] || b[sh]) - h.clientHeight);
@@ -68,6 +84,13 @@ function update(scrollPercent) {
   scrollPercent = 1 - scrollPercent;
   const page = Math.round((N - 1) * scrollPercent);
   const dist = (N - 1) * scrollPercent - page;
+  if (scrollPercent == 1 || scrollPercent == 0){ //FIX: Needed for mobile, can't scroll to the bottom
+    html.style.scrollBehavior = "initial";
+    document
+      .getElementById("scroll_page5")
+      .scrollIntoView();
+    html.style.scrollBehavior = "smooth";
+  }
 
   const linear = (x) => 0.5 * x + 0.5;
 

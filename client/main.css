@@ -14,6 +14,10 @@ body {
     height: 100%;
 }
 
+::-webkit-scrollbar {
+    display: none;
+}
+
 #cover {
     width: 100vw;
     height: 100vh;
@@ -140,49 +144,4 @@ body {
     max-width: 100%;
     white-space: wrap;
     text-align: center;
-}
-
-#page0 {
-    /*background-color: red;*/
-    z-index: 20;
-}
-
-#page1 {
-    /*background-color: green;*/
-    z-index: 19;
-}
-
-#page2 {
-    /*background-color: blue;*/
-    z-index: 18;
-}
-
-#page3 {
-    /*background-color: yellow;*/
-    z-index: 17;
-}
-
-#page4 {
-    /*background-color: white;*/
-    z-index: 16;
-}
-
-#page5 {
-    /*background-color: white;*/
-    z-index: 15;
-}
-
-#page6 {
-    /*background-color: white;*/
-    z-index: 14;
-}
-
-#page7 {
-    /*background-color: white;*/
-    z-index: 13;
-}
-
-#page8 {
-    /*background-color: white;*/
-    z-index: 12;
 }
