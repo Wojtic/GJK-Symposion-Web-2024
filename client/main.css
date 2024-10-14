@@ -14,9 +14,9 @@ body {
     height: 100%;
 }
 
-::-webkit-scrollbar {
+/* ::-webkit-scrollbar {
     display: none;
-}
+} */
 
 #cover {
     width: 100vw;

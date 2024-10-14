@@ -33,7 +33,7 @@ function assignZIndex() {
   pages = document.getElementsByClassName("page");
   console.log(pages);
   for(var i = 0; i < pages.length; i++){
-    pages[i].style.zIndex = (pages.length - i + 4).toString();
+    pages[i].style.zIndex = (pages.length - i + 5).toString();
   }
 }
 
