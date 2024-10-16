@@ -87,7 +87,7 @@ function update(scrollPercent) {
 
 function setCSS(scrollPercent) {
   page = Math.round((N_SCROLL - 1) * scrollPercent) % N;
-  const linear = (x) => 0.5 * x + 0.5;
+  const linear = (x) => 0.25 * x + 0.75;
 
   assignZIndex();
 
