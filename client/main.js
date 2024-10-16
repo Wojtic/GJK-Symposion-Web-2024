@@ -1,6 +1,7 @@
 let scrolling = false;
 let lastPage = 0;
-const N = 7*2-1;
+const N = 9*2-1;
+const VISIBLE_PAGES = 4;
 
 let cursorX = 0;
 let cursorY = 0;
@@ -77,13 +78,10 @@ function getScrollPercent() {
     b = body,
     st = "scrollTop",
     sh = "scrollHeight";
-  return (h[st] || b[st]) / ((h[sh] || b[sh]) - h.clientHeight);
+  return 1 - (h[st] || b[st]) / ((h[sh] || b[sh]) - h.clientHeight);
 }
 
 function update(scrollPercent) {
-  scrollPercent = 1 - scrollPercent;
-  const page = Math.round((N - 1) * scrollPercent);
-  const dist = (N - 1) * scrollPercent - page;
   if (scrollPercent == 1 || scrollPercent == 0){ //FIX: Needed for mobile, can't scroll to the bottom
     html.style.scrollBehavior = "initial";
     document
@@ -92,11 +90,22 @@ function update(scrollPercent) {
     html.style.scrollBehavior = "smooth";
   }
 
+  setCSS(scrollPercent);
+}
+
+function setCSS(scrollPercent) {
+  const page = Math.round((N - 1) * scrollPercent);
+  const dist = (N - 1) * scrollPercent - page;
   const linear = (x) => 0.5 * x + 0.5;
 
   let scale = 1;
-  for (var i = 0; i < N - page; i++) {
+  for (let i = 0; i < VISIBLE_PAGES; i++) {
+    if (page + i >= N) {continue}
     document.querySelector("#page" + (page + i)).style.display = "inherit";
+    document.querySelector("#page" + (page + i)).style.opacity = i == 0 ? Math.min(
+      1,
+      1 - 2 * dist
+    ) : "1";
     document.querySelector("#page" + (page + i)).style.translate =
       Math.round(-cursorX * vw * i * 0.05) +
       "px " +
@@ -107,10 +116,9 @@ function update(scrollPercent) {
     scale /= 3;
   }
 
-  document.querySelector("#page" + page).style.opacity = Math.min(
-    1,
-    1 - 2 * dist
-  );
+  for (let i = page + VISIBLE_PAGES; i < N; i++) {
+    document.querySelector("#page" + i).style.display = "none";
+  }
 
   for (let i = 0; i < page; i++) {
     document.querySelector("#page" + i).style.display = "none";
