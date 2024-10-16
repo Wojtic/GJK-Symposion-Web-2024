@@ -26,7 +26,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
     history.scrollRestoration = "manual";
   }
   html.style.scrollBehavior = "initial";
-  document.getElementById("scroll_page8").scrollIntoView();
+  document.getElementById("intro").scrollIntoView();
   html.style.scrollBehavior = "smooth";
   assignZIndex();
   update(getScrollPercent());
@@ -65,7 +65,7 @@ function update(scrollPercent) {
   ) {
     //FIX: Needed for mobile, can't scroll to the bottom
     html.style.scrollBehavior = "initial";
-    document.getElementById("scroll_page7").scrollIntoView();
+    document.getElementById("about").scrollIntoView();
     html.style.scrollBehavior = "smooth";
   }
 
