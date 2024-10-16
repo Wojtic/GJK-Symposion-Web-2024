@@ -21,7 +21,20 @@ function assignZIndex() {
   }
 }
 
+function setup() {
+  let navigation = "";
+  for (let i = 0; i < N; i++) {
+    const containerPage = document.querySelector("#page" + i);
+    if (i == 0) {
+      navigation = containerPage.querySelectorAll("nav")[0].innerHTML;
+    } else {
+      containerPage.querySelectorAll("nav")[0].innerHTML = navigation;
+    }
+  }
+}
+
 document.addEventListener("DOMContentLoaded", function (event) {
+  setup();
   if ("scrollRestoration" in history) {
     history.scrollRestoration = "manual";
   }
