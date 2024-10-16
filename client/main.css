@@ -107,7 +107,6 @@ body {
 .frame .left {
     min-width: 8dvh;
     height: 100%;
-    background-image: url("./media/frame_vertical.png");
     background-size: 100% 100%;
 }
 
@@ -122,15 +121,15 @@ body {
 .frame .middle {
     width: 100%;
     height: 100%;
-    background-image: url("./media/frame_middle.png");
     background-size: 100% 100%;
 }
 
 .frame .c_top_left,
-.frame .c_bottom_right {
+.frame .c_bottom_right,
+.frame .c_top_right,
+.frame .c_bottom_left {
     min-width: 8dvh;
     height: 100%;
-    background-image: url("./media/frame_corner_1.png");
     background-size: 100% 100%;
 }
 
@@ -138,8 +137,39 @@ body {
 .frame .c_bottom_left {
     min-width: 8dvh;
     height: 100%;
-    background-image: url("./media/frame_corner_2.png");
     background-size: 100% 100%;
+}
+
+.frame .right {
+    background-image: url("./media/1/R_1.jpg");
+}
+
+.frame .left {
+    background-image: url("./media/1/L_1.jpg");
+}
+
+.frame .bottom .middle {
+    background-image: url("./media/1/D_1.jpg");
+}
+
+.frame .top .middle {
+    background-image: url("./media/1/U_1.jpg");
+}
+
+.frame .c_top_right {
+    background-image: url("./media/1/UR_1.jpg");
+}
+
+.frame .c_top_left {
+    background-image: url("./media/1/UL_1.jpg");
+}
+
+.frame .c_bottom_right {
+    background-image: url("./media/1/DR_1.jpg");
+}
+
+.frame .c_bottom_left {
+    background-image: url("./media/1/DL_1.jpg");
 }
 
 .content {
@@ -149,7 +179,6 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
     max-width: calc(100% - 16vh);
     height: 100%;
     opacity: 0.9;
@@ -159,4 +188,40 @@ body {
     max-width: 100%;
     white-space: wrap;
     text-align: center;
+}
+
+nav {
+    width: 100%;
+    height: 7rem;
+    align-self: flex-start;
+    display: flex;
+    flex-direction: row;
+    align-content: space-between;
+}
+
+nav .logo img {
+    height: 5rem;
+}
+
+nav .logo {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+nav .links {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: row;
+}
+
+nav .links a {
+    display: inline-block;
+    height: 100%;
+    text-decoration: none;
+    color: white;
+    line-height: 7rem;
+    padding: 0 2rem;
+    font-size: x-large;
+    font-weight: bold;
 }
