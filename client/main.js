@@ -1,6 +1,7 @@
 const N = 6;
 const N_SCROLL = 15;
 let page = 0;
+let lastPage = page;
 
 let cursorX = 0;
 let cursorY = 0;
@@ -87,9 +88,11 @@ function update(scrollPercent) {
 
 function setCSS(scrollPercent) {
   page = Math.round((N_SCROLL - 1) * scrollPercent) % N;
+  if (page != lastPage) {
+    assignZIndex();
+    lastPage = page;
+  }
   const linear = (x) => 0.25 * x + 0.75;
-
-  assignZIndex();
 
   for (let j = 0; j < N; j++) {
     let curPage = (N + page + j) % N;
