@@ -22,6 +22,43 @@ function assignZIndex() {
   }
 }
 
+function generateFrames() {
+  const shuffle = (a) => {
+    for (var j, i = a.length - 1; i > 0; i--) {
+      j = Math.floor(Math.random() * (i + 1));
+      [a[i], a[j]] = [a[j], a[i]];
+    }
+    return a;
+  };
+  const shuffled = shuffle([...Array(N).keys()]);
+  for (let i = 0; i < N; i++) {
+    document.querySelector(
+      "#page" + i + " .frame .right"
+    ).style.backgroundImage = "url(./media/frames/" + shuffled[i] + "/R.jpg)";
+    document.querySelector(
+      "#page" + i + " .frame .left"
+    ).style.backgroundImage = "url(./media/frames/" + shuffled[i] + "/L.jpg)";
+    document.querySelector(
+      "#page" + i + " .frame .bottom .middle"
+    ).style.backgroundImage = "url(./media/frames/" + shuffled[i] + "/D.jpg)";
+    document.querySelector(
+      "#page" + i + " .frame .top .middle"
+    ).style.backgroundImage = "url(./media/frames/" + shuffled[i] + "/U.jpg)";
+    document.querySelector(
+      "#page" + i + " .frame .top .c_top_right"
+    ).style.backgroundImage = "url(./media/frames/" + shuffled[i] + "/UR.jpg)";
+    document.querySelector(
+      "#page" + i + " .frame .top .c_top_left"
+    ).style.backgroundImage = "url(./media/frames/" + shuffled[i] + "/UL.jpg)";
+    document.querySelector(
+      "#page" + i + " .frame .c_bottom_right"
+    ).style.backgroundImage = "url(./media/frames/" + shuffled[i] + "/DR.jpg)";
+    document.querySelector(
+      "#page" + i + " .frame .c_bottom_left"
+    ).style.backgroundImage = "url(./media/frames/" + shuffled[i] + "/DL.jpg)";
+  }
+}
+
 function setup() {
   let navigation = "";
   for (let i = 0; i < N; i++) {
@@ -32,6 +69,7 @@ function setup() {
       containerPage.querySelectorAll("nav")[0].innerHTML = navigation;
     }
   }
+  generateFrames();
 }
 
 document.addEventListener("DOMContentLoaded", function (event) {

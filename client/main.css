@@ -141,102 +141,6 @@ body {
     background-size: 100% 100%;
 }
 
-#page0 .frame .right {
-    background-image: url("./media/1/R_1.jpg");
-}
-
-#page0 .frame .left {
-    background-image: url("./media/1/L_1.jpg");
-}
-
-#page0 .frame .bottom .middle {
-    background-image: url("./media/1/D_1.jpg");
-}
-
-#page0 .frame .top .middle {
-    background-image: url("./media/1/U_1.jpg");
-}
-
-#page0 .frame .c_top_right {
-    background-image: url("./media/1/UR_1.jpg");
-}
-
-#page0 .frame .c_top_left {
-    background-image: url("./media/1/UL_1.jpg");
-}
-
-#page0 .frame .c_bottom_right {
-    background-image: url("./media/1/DR_1.jpg");
-}
-
-#page0 .frame .c_bottom_left {
-    background-image: url("./media/1/DL_1.jpg");
-}
-
-#page1 .frame .right {
-    background-image: url("./media/2/R_2.jpg");
-}
-
-#page1 .frame .left {
-    background-image: url("./media/2/L_2.jpg");
-}
-
-#page1 .frame .bottom .middle {
-    background-image: url("./media/2/D_2.jpg");
-}
-
-#page1 .frame .top .middle {
-    background-image: url("./media/2/U_2.jpg");
-}
-
-#page1 .frame .c_top_right {
-    background-image: url("./media/2/UR_2.jpg");
-}
-
-#page1 .frame .c_top_left {
-    background-image: url("./media/2/UL_2.jpg");
-}
-
-#page1 .frame .c_bottom_right {
-    background-image: url("./media/2/DR_2.jpg");
-}
-
-#page1 .frame .c_bottom_left {
-    background-image: url("./media/2/DL_2.jpg");
-}
-
-.frame .right {
-    background-image: url("./media/3/R_3.jpg");
-}
-
-.frame .left {
-    background-image: url("./media/3/L_3.jpg");
-}
-
-.frame .bottom .middle {
-    background-image: url("./media/3/D_3.jpg");
-}
-
-.frame .top .middle {
-    background-image: url("./media/3/U_3.jpg");
-}
-
-.frame .c_top_right {
-    background-image: url("./media/3/UR_3.jpg");
-}
-
-.frame .c_top_left {
-    background-image: url("./media/3/UL_3.jpg");
-}
-
-.frame .c_bottom_right {
-    background-image: url("./media/3/DR_3.jpg");
-}
-
-.frame .c_bottom_left {
-    background-image: url("./media/3/DL_3.jpg");
-}
-
 .content {
     padding: 20px;
     color: white;
@@ -349,7 +253,7 @@ nav .links a {
     }
 }
 
-@media only screen and (max-width: 500px){
+@media only screen and (max-width: 500px) {
     nav .links a {
         font-size: 0.8rem;
     }
