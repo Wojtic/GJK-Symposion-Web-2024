@@ -112,7 +112,7 @@ function update(scrollPercent) {
   const dist =
     (N_SCROLL - 1) * scrollPercent - Math.round((N_SCROLL - 1) * scrollPercent);
   if (
-    Math.abs(dist) < 0.01 &&
+    Math.abs(dist) < 0.1 &&
     (scrolledPage >= N_SCROLL - 2 || scrolledPage <= 1)
   ) {
     //FIX: Needed for mobile, can't scroll to the bottom
