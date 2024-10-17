@@ -24,7 +24,7 @@ body {
     height: 100dvh;
     position: fixed;
     z-index: 100;
-    background-color: rgb(19, 66, 66);
+    background-color: rgb(6, 30, 42);
     opacity: 1;
     display: block;
 }
