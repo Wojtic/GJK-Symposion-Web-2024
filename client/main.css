@@ -190,7 +190,7 @@ nav .links {
     display: flex;
     flex-direction: row;
     max-width: 35rem;
-    justify-content: space-between;
+    justify-content: space-around;
     align-items: center;
     margin: 0 50px;
 }
@@ -221,6 +221,14 @@ nav .links a {
     margin: 3rem 0 1rem 0;
 }
 
+.harmonogram h1 {
+    text-align: center;
+}
+
+h3 {
+    margin-top: 1rem;
+}
+
 @media only screen and (max-width: 900px) {
     nav {
         flex-direction: column;
@@ -232,13 +240,14 @@ nav .links a {
     }
 
     nav .links {
-        height: 1rem;
+        height: 2rem;
         width: 100%;
         max-width: 100%;
     }
 
     nav .links a {
         font-size: 1.2rem;
+        line-height: 2rem
     }
 
     .content {
@@ -248,6 +257,23 @@ nav .links a {
     h3 {
         font-size: 1rem;
     }
+
+    h1 {
+        font-size: 1.5rem;
+    }
+
+    p {
+        font-size: 0.9rem;
+    }
+
+    .column {
+        padding: 0.5rem;
+    }
+
+    .column h1 {
+        margin: 1rem 0 1rem 0;
+    }
+
 }
 
 @media only screen and (max-width: 500px) {
