@@ -216,11 +216,11 @@ nav .links a {
 
 .column p {
     text-align: justify;
-    margin-bottom: 2rem;
+    margin-top: 2rem;
 }
 
 .column h1 {
-    margin: 3rem 0 1rem 0;
+    margin: 3rem 0 0 0;
 }
 
 .harmonogram h1 {
@@ -273,7 +273,7 @@ h3 {
     }
 
     .column h1 {
-        margin: 1rem 0 1rem 0;
+        margin: 1rem 0 0 0;
     }
 
 
@@ -315,5 +315,57 @@ h3 {
 
     nav .links a {
         font-size: 0.8rem;
+    }
+}
+
+
+@media only screen and (max-height: 600px) {
+    nav {
+        flex-direction: row;
+        height: 1.7rem;
+    }
+
+    nav .logo img {
+        height: 1rem;
+    }
+
+    nav .links {
+        height: 1.7rem;
+        width: 100%;
+        max-width: 100%;
+        margin: 0;
+    }
+
+    nav .links a {
+        font-size: 1.2rem;
+        line-height: 1.7rem
+    }
+
+    h1 {
+        font-size: 0.8rem;
+        margin: 0 !important;
+    }
+
+    .column p {
+        margin-top: 1vh;
+    }
+
+    .column {
+        padding: 0.1rem;
+    }
+
+    nav .links a {
+        font-size: 0.8rem;
+    }
+}
+
+@media only screen and (max-height: 450px) and (max-width: 340px) {
+    h1 {
+        font-size: 0.7rem;
+        margin: 0 !important;
+    }
+
+    p {
+        font-size: 0.7rem;
     }
 }
