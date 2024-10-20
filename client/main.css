@@ -67,7 +67,6 @@ body {
     top: 0;
     left: 0;
     transform-origin: center;
-    transform: scale(1);
 }
 
 .bgr {
@@ -109,7 +108,6 @@ body {
 .frame .left {
     min-width: 8dvh;
     height: 100%;
-    background-size: 100% 100%;
 }
 
 .frame .top,
@@ -123,7 +121,6 @@ body {
 .frame .middle {
     width: 100%;
     height: 100%;
-    background-size: 100% 100%;
 }
 
 .frame .c_top_left,
@@ -132,14 +129,12 @@ body {
 .frame .c_bottom_left {
     min-width: 8dvh;
     height: 100%;
-    background-size: 100% 100%;
 }
 
 .frame .c_top_right,
 .frame .c_bottom_left {
     min-width: 8dvh;
     height: 100%;
-    background-size: 100% 100%;
 }
 
 .content {
