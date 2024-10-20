@@ -34,31 +34,48 @@ function generateFrames() {
     return a;
   };
   const shuffled = shuffle([...Array(N).keys()]);
+  const smallerSideFrameSizes = ["100%", "78px", "100%", "21px", "191px", "114px"]
   for (let i = 0; i < N; i++) {
-    document.querySelector(
+    const R = document.querySelector(
       "#page" + i + " .frame .right"
-    ).style.backgroundImage = "url(./media/frames/" + shuffled[i] + "/R.jpg)";
-    document.querySelector(
+    )
+    const L = document.querySelector(
       "#page" + i + " .frame .left"
-    ).style.backgroundImage = "url(./media/frames/" + shuffled[i] + "/L.jpg)";
-    document.querySelector(
+    )
+    const D = document.querySelector(
       "#page" + i + " .frame .bottom .middle"
-    ).style.backgroundImage = "url(./media/frames/" + shuffled[i] + "/D.jpg)";
-    document.querySelector(
+    )
+    const U = document.querySelector(
       "#page" + i + " .frame .top .middle"
-    ).style.backgroundImage = "url(./media/frames/" + shuffled[i] + "/U.jpg)";
-    document.querySelector(
+    )
+    const UR = document.querySelector(
       "#page" + i + " .frame .top .c_top_right"
-    ).style.backgroundImage = "url(./media/frames/" + shuffled[i] + "/UR.jpg)";
-    document.querySelector(
+    )
+    const UL = document.querySelector(
       "#page" + i + " .frame .top .c_top_left"
-    ).style.backgroundImage = "url(./media/frames/" + shuffled[i] + "/UL.jpg)";
-    document.querySelector(
+    )
+    const DR = document.querySelector(
       "#page" + i + " .frame .c_bottom_right"
-    ).style.backgroundImage = "url(./media/frames/" + shuffled[i] + "/DR.jpg)";
-    document.querySelector(
+    )
+    const DL = document.querySelector(
       "#page" + i + " .frame .c_bottom_left"
-    ).style.backgroundImage = "url(./media/frames/" + shuffled[i] + "/DL.jpg)";
+    )
+    R.style.backgroundImage = "url(./media/frames/" + shuffled[i] + "/R.jpg)";
+    R.style.backgroundSize = " 100%" + smallerSideFrameSizes[shuffled[i]];
+    L.style.backgroundImage = "url(./media/frames/" + shuffled[i] + "/L.jpg)";
+    L.style.backgroundSize = " 100%" + smallerSideFrameSizes[shuffled[i]];
+    D.style.backgroundImage = "url(./media/frames/" + shuffled[i] + "/D.jpg)";
+    D.style.backgroundSize = smallerSideFrameSizes[shuffled[i]] + " 100%";
+    U.style.backgroundImage = "url(./media/frames/" + shuffled[i] + "/U.jpg)";
+    U.style.backgroundSize = smallerSideFrameSizes[shuffled[i]] + " 100%";
+    UR.style.backgroundImage = "url(./media/frames/" + shuffled[i] + "/UR.jpg)";
+    UR.style.backgroundSize = "100% 100%";
+    UL.style.backgroundImage = "url(./media/frames/" + shuffled[i] + "/UL.jpg)";
+    UL.style.backgroundSize = "100% 100%";
+    DR.style.backgroundImage = "url(./media/frames/" + shuffled[i] + "/DR.jpg)";
+    DR.style.backgroundSize = "100% 100%";
+    DL.style.backgroundImage = "url(./media/frames/" + shuffled[i] + "/DL.jpg)";
+    DL.style.backgroundSize = "100% 100%";
   }
 }
 
