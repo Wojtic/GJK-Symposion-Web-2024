@@ -3,6 +3,8 @@ const N_SCROLL = 15;
 let page = 0;
 let lastPage = page;
 
+let blockCSSUpdates = false;
+
 let cursorX = 0;
 let cursorY = 0;
 
@@ -112,19 +114,27 @@ function update(scrollPercent) {
   const dist =
     (N_SCROLL - 1) * scrollPercent - Math.round((N_SCROLL - 1) * scrollPercent);
   if (
-    Math.abs(dist) < 0.1 &&
-    (scrolledPage >= N_SCROLL - 2 || scrolledPage <= 1)
+    scrolledPage - Math.abs(dist) >= N_SCROLL - 2 - 0.05 ||
+    scrolledPage + Math.abs(dist) <= 1.05
   ) {
-    //FIX: Needed for mobile, can't scroll to the bottom
     html.style.scrollBehavior = "initial";
+    html.style.scrollSnapType = "none";
+    blockCSSUpdates = true;
     document.getElementById("about").scrollIntoView();
+    setTimeout(() => {
+      blockCSSUpdates = false;
+      update();
+    }, 200);
+
     html.style.scrollBehavior = "smooth";
+    html.style.scrollSnapType = "y mandatory";
   }
 
   setCSS(scrollPercent);
 }
 
 function setCSS(scrollPercent) {
+  if (blockCSSUpdates) return;
   page = Math.round((N_SCROLL - 1) * scrollPercent) % N;
   if (page != lastPage) {
     assignZIndex();
