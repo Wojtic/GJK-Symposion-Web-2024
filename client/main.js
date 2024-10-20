@@ -2,8 +2,9 @@ const N = 6;
 const N_SCROLL = 15;
 let page = 0;
 let lastPage = page;
+const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
 
-let blockCSSUpdates = false;
+let blockUpdates = false;
 
 let cursorX = 0;
 let cursorY = 0;
@@ -110,6 +111,7 @@ function getScrollPercent() {
 }
 
 function update(scrollPercent) {
+  if (blockUpdates) return;
   const scrolledPage = Math.round((N_SCROLL - 1) * scrollPercent);
   const dist =
     (N_SCROLL - 1) * scrollPercent - Math.round((N_SCROLL - 1) * scrollPercent);
@@ -119,10 +121,10 @@ function update(scrollPercent) {
   ) {
     html.style.scrollBehavior = "initial";
     html.style.scrollSnapType = "none";
-    blockCSSUpdates = true;
+    blockUpdates = true;
     document.getElementById("about").scrollIntoView();
     setTimeout(() => {
-      blockCSSUpdates = false;
+      blockUpdates = false;
       update();
     }, 200);
 
@@ -134,7 +136,7 @@ function update(scrollPercent) {
 }
 
 function setCSS(scrollPercent) {
-  if (blockCSSUpdates) return;
+  if (blockUpdates) return;
   page = Math.round((N_SCROLL - 1) * scrollPercent) % N;
   if (page != lastPage) {
     assignZIndex();
@@ -144,6 +146,8 @@ function setCSS(scrollPercent) {
 
   for (let j = 0; j < N; j++) {
     let curPage = (N + page + j) % N;
+    if (isNaN(curPage)) continue;
+
     const scale =
       1 /
       linear(
@@ -160,12 +164,14 @@ function setCSS(scrollPercent) {
     document.querySelector("#page" + curPage).style.display = "inherit";
     document.querySelector("#page" + curPage).style.opacity =
       j == 0 ? Math.min(1, 1 - 2 * dist) : "1";
+    document.querySelector("#page" + curPage).style.transform =
+      "scale(" + scale + ")";
+
+    if (isMobile) continue;
     document.querySelector("#page" + curPage).style.translate =
       Math.round(-cursorX * vw * j * 0.05) +
       "px " +
       Math.round(-cursorY * vh * j * 0.05) +
       "px";
-    document.querySelector("#page" + curPage).style.transform =
-      "scale(" + scale + ")";
   }
 }
