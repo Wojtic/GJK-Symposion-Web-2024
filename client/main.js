@@ -36,30 +36,14 @@ function generateFrames() {
   const shuffled = shuffle([...Array(N).keys()]);
   const smallerSideFrameSizes = ["100%", "78px", "100%", "21px", "191px", "114px"]
   for (let i = 0; i < N; i++) {
-    const R = document.querySelector(
-      "#page" + i + " .frame .right"
-    )
-    const L = document.querySelector(
-      "#page" + i + " .frame .left"
-    )
-    const D = document.querySelector(
-      "#page" + i + " .frame .bottom .middle"
-    )
-    const U = document.querySelector(
-      "#page" + i + " .frame .top .middle"
-    )
-    const UR = document.querySelector(
-      "#page" + i + " .frame .top .c_top_right"
-    )
-    const UL = document.querySelector(
-      "#page" + i + " .frame .top .c_top_left"
-    )
-    const DR = document.querySelector(
-      "#page" + i + " .frame .c_bottom_right"
-    )
-    const DL = document.querySelector(
-      "#page" + i + " .frame .c_bottom_left"
-    )
+    const R = document.querySelector("#page" + i + " .frame .right");
+    const L = document.querySelector("#page" + i + " .frame .left");
+    const D = document.querySelector("#page" + i + " .frame .bottom .middle");
+    const U = document.querySelector("#page" + i + " .frame .top .middle");
+    const UR = document.querySelector("#page" + i + " .frame .top .c_top_right");
+    const UL = document.querySelector("#page" + i + " .frame .top .c_top_left");
+    const DR = document.querySelector("#page" + i + " .frame .c_bottom_right");
+    const DL = document.querySelector("#page" + i + " .frame .c_bottom_left");
     R.style.backgroundImage = "url(./media/frames/" + shuffled[i] + "/R.jpg)";
     R.style.backgroundSize = " 100%" + smallerSideFrameSizes[shuffled[i]];
     L.style.backgroundImage = "url(./media/frames/" + shuffled[i] + "/L.jpg)";
