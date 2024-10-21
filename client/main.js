@@ -79,6 +79,14 @@ function generateFrames() {
   }
 }
 
+var bouncingEl = document.getElementsByClassName("bouncing");
+var bouncingElDir = [];
+const navbar = document.querySelector("nav")
+const rightFrame = document.querySelector("#page0 .right")
+const bottomFrame = document.querySelector("#page0 .bottom")
+const leftFrame = document.querySelector("#page0 .left")
+const bounds = [navbar.getBoundingClientRect().bottom, rightFrame.getBoundingClientRect().left, bottomFrame.getBoundingClientRect().top, leftFrame.getBoundingClientRect().right]; //TopRightBottomLeft
+
 function setup() {
   let navigation = "";
   for (let i = 0; i < N; i++) {
@@ -89,7 +97,25 @@ function setup() {
       containerPage.querySelectorAll("nav")[0].innerHTML = navigation;
     }
   }
+  for(let i = 0; i<bouncingEl.length; i++) {
+    bouncingElDir.push([Math.random()*2-1, Math.random()*2-1]);
+    bouncingEl[i].style.top = (navbar.getBoundingClientRect().bottom + (document.documentElement.clientHeight * 0.92 - navbar.getBoundingClientRect().bottom)/(bouncingEl.length + 2)*(i+1)).toString() + "px";
+    bouncingEl[i].style.left = (document.documentElement.clientWidth/2 - bouncingEl[i].getBoundingClientRect().width/2).toString() + "px";
+  }
   generateFrames();
+}
+
+function bouncingText () {
+  const speed = Math.log(document.documentElement.clientWidth/600)*4+4;
+  console.log(speed);
+  for(let i = 0; i<bouncingEl.length; i++) {
+    if(bouncingEl[i].getBoundingClientRect().left < bounds[3]) bouncingElDir[i][1] = Math.abs(bouncingElDir[i][1]);
+    if(bouncingEl[i].getBoundingClientRect().right > bounds[1]) bouncingElDir[i][1] = -Math.abs(bouncingElDir[i][1]);
+    if(bouncingEl[i].getBoundingClientRect().top < bounds[0]) bouncingElDir[i][0] = Math.abs(bouncingElDir[i][0]);
+    if(bouncingEl[i].getBoundingClientRect().bottom > bounds[2]) bouncingElDir[i][0] = -Math.abs(bouncingElDir[i][0]);
+    bouncingEl[i].style.top = (parseFloat(bouncingEl[i].style.top.split("px")[0]) + bouncingElDir[i][0]*speed).toString() + "px";
+    bouncingEl[i].style.left = (parseFloat(bouncingEl[i].style.left.split("px")[0]) + bouncingElDir[i][1]*speed).toString() + "px";
+  }
 }
 
 document.addEventListener("DOMContentLoaded", function (event) {
@@ -127,6 +153,7 @@ function getScrollPercent() {
   return 1 - (h[st] || b[st]) / ((h[sh] || b[sh]) - h.clientHeight);
 }
 
+var bouncingTextInterval = setInterval(bouncingText, 50);
 function update(scrollPercent) {
   if (blockUpdates) return;
   const scrolledPage = Math.round((N_SCROLL - 1) * scrollPercent);
@@ -148,7 +175,13 @@ function update(scrollPercent) {
     html.style.scrollBehavior = "smooth";
     html.style.scrollSnapType = "y mandatory";
   }
-
+  if (scrolledPage % 6 == 0 && isNaN(bouncingTextInterval)) {
+    bouncingTextInterval = setInterval(bouncingText, 50);
+  }
+  else if (scrolledPage % 6 != 0 && bouncingTextInterval != NaN) {
+    clearInterval(bouncingTextInterval);
+    bouncingTextInterval = NaN;
+  }
   setCSS(scrollPercent);
 }
 
