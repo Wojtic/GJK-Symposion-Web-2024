@@ -16,7 +16,20 @@ body {
 }
 
 ::-webkit-scrollbar {
-    display: none;
+    width: 0px;
+    background: transparent;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background: transparent;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: transparent;
 }
 
 #cover {
@@ -219,11 +232,54 @@ nav .links a {
 }
 
 .harmonogram h1 {
+    padding-bottom: 20px;
     text-align: center;
 }
 
 h3 {
     margin-top: 1rem;
+}
+
+.harmonogram {
+    max-width: 100%;
+}
+
+
+.harmonogram .table_boundry {
+    max-width: 100%;
+    overflow-x: auto;
+}
+
+.harmonogram ::-webkit-scrollbar {
+    height: 10px;
+    background: rgba(255, 255, 255, 0.);
+}
+
+.harmonogram ::-webkit-scrollbar-track {
+    border-radius: 5px;
+    background: transparent;
+}
+
+.harmonogram ::-webkit-scrollbar-thumb {
+    border-radius: 5px;
+    background: #fafafa;
+}
+
+.harmonogram ::-webkit-scrollbar-thumb:hover {
+    background: #ccc;
+}
+
+.harmonogram table{
+    width: 100%;
+}
+
+.harmonogram table th {
+    text-align: right;
+    padding: 10px;
+}
+
+.harmonogram table td {
+    text-align: center;
 }
 
 @media only screen and (max-width: 1250px) {
