@@ -214,6 +214,30 @@ nav .links a {
     text-align: center;
 }
 
+.contacts_column {
+    margin: 0 auto;
+    max-width: 80rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+.contacts_p {
+    max-width: 45rem;
+    margin-right: 2rem;
+}
+
+.contacts_p p {
+    font-size: 1.3rem;
+    margin-top: 1rem;
+}
+
+.contacts_row {
+    margin-top: 1rem;
+    display: flex;
+    flex-direction: row;
+}
+
 .column {
     margin: 0 auto;
     max-width: 60rem;
@@ -269,7 +293,7 @@ h3 {
     background: #ccc;
 }
 
-.harmonogram table{
+.harmonogram table {
     width: 100%;
 }
 
@@ -303,7 +327,7 @@ h3 {
         line-height: 1.5rem
     }
 
-    
+
 }
 
 @media only screen and (max-width: 900px) {
