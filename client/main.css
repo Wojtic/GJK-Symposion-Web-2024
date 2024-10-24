@@ -327,7 +327,13 @@ h3 {
         line-height: 1.5rem
     }
 
+    .contacts_row iframe {
+        margin-top: 2rem;
+    }
 
+    .contacts_row {
+        flex-direction: column;
+    }
 }
 
 @media only screen and (max-width: 900px) {
