@@ -293,6 +293,7 @@ h3 {
 .contacts_p p {
     font-size: min(1.3rem, 4vw);
     margin-top: min(1rem, 1.5vh);
+    margin-right: 1rem;
 }
 
 .contacts_row {

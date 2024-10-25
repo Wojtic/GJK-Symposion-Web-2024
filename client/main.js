@@ -112,6 +112,7 @@ function setup() {
       ).toString() + "px";
   }
   document.querySelector("footer").addEventListener("click", () => {
+    return;
     document.getElementById("credits_overlay").style.display = "block";
   });
   generateFrames();
