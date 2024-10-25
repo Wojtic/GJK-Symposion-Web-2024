@@ -86,12 +86,12 @@ function setup() {
     bouncingEl[i].style.top = (navbar.getBoundingClientRect().bottom + (document.documentElement.clientHeight * 0.92 - navbar.getBoundingClientRect().bottom)/(bouncingEl.length + 2)*(i+1)).toString() + "px";
     bouncingEl[i].style.left = (document.documentElement.clientWidth/2 - bouncingEl[i].getBoundingClientRect().width/2).toString() + "px";
   }
+  document.querySelector("footer").addEventListener("click", () => {document.getElementById("credits_overlay").style.display = "block"})
   generateFrames();
 }
 
 function bouncingText () {
   const speed = Math.log(document.documentElement.clientWidth/600)*4+4;
-  console.log(speed);
   for(let i = 0; i<bouncingEl.length; i++) {
     if(bouncingEl[i].getBoundingClientRect().left < bounds[3]) bouncingElDir[i][1] = Math.abs(bouncingElDir[i][1]);
     if(bouncingEl[i].getBoundingClientRect().right > bounds[1]) bouncingElDir[i][1] = -Math.abs(bouncingElDir[i][1]);
@@ -117,6 +117,10 @@ document.addEventListener("DOMContentLoaded", function (event) {
   cover.addEventListener("animationend", () => {
     cover.style.display = "none";
   });
+  const replikaASCII = `\n  _____            _ _ _         \n |  __ \\          | (_) |        \n | |__) |___ _ __ | |_| | ____ _ \n |  _  // _ \\ '_ \\| | | |/ / _´ |\n | | \\ \\  __/ |_) | | |   < (_| |\n |_|  \\_\\___| .__/|_|_|_|\\_\\__,_|\n            | |                  \n            |_|`;
+  for(let i = 1; i<Math.round(Math.random()*10); i++){
+    console.log(replikaASCII.repeat(i))
+  }
 });
 
 document.onmousemove = handleMouseMove;
