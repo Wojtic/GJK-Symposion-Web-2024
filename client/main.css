@@ -267,15 +267,38 @@ h3 {
 
 .harmonogram table {
     width: 100%;
+    border-collapse: collapse;
+}
+
+.harmonogram table tr:first-child th {
+    border-bottom: #fafafa 2px solid;
 }
 
 .harmonogram table th {
-    text-align: right;
+    text-align: center;
     padding: 10px;
 }
 
+.harmonogram table tr {
+    margin-bottom: 0.5rem;
+    max-height: 15vh;
+}
+
 .harmonogram table td {
+    /*max-width: 20rem;*/
+}
+
+.harmonogram table td p {
     text-align: center;
+}
+
+.harmonogram table td .presenter {
+    font-weight: bold;
+    margin: 0.5rem;
+}
+
+.harmonogram table td .lecture {
+    margin: 0 0.2rem;
 }
 
 .contacts_column {
