@@ -1,9 +1,6 @@
-import requests
-import csv
 import pandas as pd
 
-from flask import Flask, jsonify
-from flask import request
+from flask import Flask, request, jsonify
 import os
 
 app = Flask(__name__)
@@ -13,17 +10,16 @@ def hello_world():
     return "Hello, World!"
 
 URL = r"https://docs.google.com/spreadsheets/d/1lat6R_n_AQRJp1Jztt5YHqsjl9AmY8mEuTLvroDnRiU/export?format=csv"
-"""
-response = requests.get(r"https://docs.google.com/spreadsheets/d/1lat6R_n_AQRJp1Jztt5YHqsjl9AmY8mEuTLvroDnRiU/export?format=csv")
-response_csv = response.content
-print(response_csv)
-"""
+
+#response = requests.get(r"https://docs.google.com/spreadsheets/d/1lat6R_n_AQRJp1Jztt5YHqsjl9AmY8mEuTLvroDnRiU/export?format=csv")
+#response_csv = response.content
+#print(response_csv)
 df = pd.read_csv(URL)
 speakers = df.iloc[:, 0].astype(str).tolist()
 
 day_lengths = [4, 4, 2]
 ROOMS = 6
-def fetchData():
+def fetch_data():
     days = []
     index = 0
     for i in day_lengths:
@@ -37,11 +33,10 @@ def fetchData():
             day.append(room)
         days.append(day)
     return days
-    print(days)
 
 @app.route('/harmonogram')
 def harmonogram():
-    days = fetchData()
+    days = fetch_data()
     # if key doesn't exist, returns None
     #language = request.args.get('language')
 
@@ -50,7 +45,7 @@ def harmonogram():
 
     # if key doesn't exist, returns None
     #website = request.args.get('website')
-    return jsonify(days)
+    return days
 
 
 if __name__ == "__main__":
