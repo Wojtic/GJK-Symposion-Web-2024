@@ -2,7 +2,9 @@ import requests
 import csv
 import pandas as pd
 
-from flask import Flask
+from flask import Flask, jsonify
+from flask import request
+import os
 
 app = Flask(__name__)
 
@@ -21,17 +23,35 @@ speakers = df.iloc[:, 0].astype(str).tolist()
 
 day_lengths = [4, 4, 2]
 ROOMS = 6
+def fetchData():
+    days = []
+    index = 0
+    for i in day_lengths:
+        day = []
+        for j in range(i):
+            room = []
+            for k in range(ROOMS):
+                room.append(speakers[index])
+                # Ehm, use splice
+                index += 1
+            day.append(room)
+        days.append(day)
+    return days
+    print(days)
 
-days = []
-index = 0
-for i in day_lengths:
-    day = []
-    for j in range(i):
-        room = ""
-        for k in range(ROOMS):
-            room += "<td>" + speakers[index] + "</td>"
-            index += 1
-        day.append(room)
-    days.append(day)
+@app.route('/harmonogram')
+def harmonogram():
+    days = fetchData()
+    # if key doesn't exist, returns None
+    #language = request.args.get('language')
 
-print(days)
+    # if key doesn't exist, returns a 400, bad request error
+    #framework = request.args['framework']
+
+    # if key doesn't exist, returns None
+    #website = request.args.get('website')
+    return jsonify(days)
+
+
+if __name__ == "__main__":
+    app.run(debug=True, host="0.0.0.0", port=int(os.environ.get("PORT", 8080)))
