@@ -161,7 +161,38 @@ document.addEventListener("DOMContentLoaded", function (event) {
   for (let i = 1; i < Math.round(Math.random() * 10); i++) {
     console.log(replikaASCII.repeat(i));
   }
+
+  fill_harmonogram();
 });
+
+async function fill_harmonogram() {
+  const data = await fetchData();
+  const day_lengths = [4, 4, 2];
+  for (let day = 0; day < 3; day++) {
+    const rows = document.querySelectorAll("#table_" + day + " tr");
+    for (let room = 0; room < 6; room++) {
+      for (let time = 0; time < day_lengths[day]; time++) {
+        rows[room + 1].innerHTML +=
+          "<td><p class='presenter'>" + data[day][time][room] + "</p></td>";
+      }
+    }
+  }
+}
+
+async function fetchData() {
+  const url = "https://api-795043680894.europe-central2.run.app/harmonogram";
+  try {
+    const response = await fetch(url);
+    if (!response.ok) {
+      throw new Error(`Response status: ${response.status}`);
+    }
+
+    const json = await response.json();
+    return json;
+  } catch (error) {
+    console.error(error.message);
+  }
+}
 
 document.onmousemove = handleMouseMove;
 function handleMouseMove(event) {
