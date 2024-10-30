@@ -14,12 +14,13 @@ URL = r"https://docs.google.com/spreadsheets/d/1lat6R_n_AQRJp1Jztt5YHqsjl9AmY8mE
 #response = requests.get(r"https://docs.google.com/spreadsheets/d/1lat6R_n_AQRJp1Jztt5YHqsjl9AmY8mEuTLvroDnRiU/export?format=csv")
 #response_csv = response.content
 #print(response_csv)
-df = pd.read_csv(URL)
-speakers = df.iloc[:, 0].astype(str).tolist()
 
 day_lengths = [4, 4, 2]
 ROOMS = 6
 def fetch_data():
+    df = pd.read_csv(URL)
+    speakers = df.iloc[:, 0].astype(str).tolist()
+
     days = []
     index = 0
     for i in day_lengths:
