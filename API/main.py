@@ -45,8 +45,11 @@ def harmonogram():
 
     # if key doesn't exist, returns None
     #website = request.args.get('website')
-    return days
+    return _corsify_actual_response(jsonify(days))
 
+def _corsify_actual_response(response):
+    response.headers.add("Access-Control-Allow-Origin", "*")
+    return response
 
 if __name__ == "__main__":
     app.run(debug=True, host="0.0.0.0", port=int(os.environ.get("PORT", 8080)))
