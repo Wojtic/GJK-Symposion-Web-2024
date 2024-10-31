@@ -168,19 +168,22 @@ document.addEventListener("DOMContentLoaded", function (event) {
 async function fill_harmonogram() {
   const data = await fetchData();
   const day_lengths = [4, 4, 2];
+  const room_order = ["Aula", "Sborovna", "USV", "P1.1", "P2.2", "P2.3"];
   for (let day = 0; day < 3; day++) {
     const rows = document.querySelectorAll("#table_" + day + " tr");
     for (let room = 0; room < 6; room++) {
-      for (let time = 0; time < day_lengths[day]; time++) {
+      let room_data = data[day][room_order[room]];
+      room_data.forEach((lecture) => {
         rows[room + 1].innerHTML +=
-          "<td><p class='presenter'>" + data[day][time][room] + "</p></td>";
-      }
+          "<td><p class='presenter'>" + lecture.name + "</p></td>";
+      });
     }
   }
 }
 
 async function fetchData() {
-  const url = "https://api-795043680894.europe-central2.run.app/harmonogram";
+  //const url = "https://api-795043680894.europe-central2.run.app/harmonogram";
+  const url = "http://10.0.0.98:8080/harmonogram";
   try {
     const response = await fetch(url);
     if (!response.ok) {
