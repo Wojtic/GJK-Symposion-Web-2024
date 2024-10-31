@@ -25,7 +25,8 @@ function assignZIndex() {
   }
 }
 
-function generateFrames() {
+function generateFrames(id = "page") {
+  let n = N;
   const shuffle = (a) => {
     for (var j, i = a.length - 1; i > 0; i--) {
       j = Math.floor(Math.random() * (i + 1));
@@ -42,17 +43,19 @@ function generateFrames() {
     "191px",
     "114px",
   ];
-  for (let i = 0; i < N; i++) {
-    const R = document.querySelector("#page" + i + " .frame .right");
-    const L = document.querySelector("#page" + i + " .frame .left");
-    const D = document.querySelector("#page" + i + " .frame .bottom .middle");
-    const U = document.querySelector("#page" + i + " .frame .top .middle");
-    const UR = document.querySelector(
-      "#page" + i + " .frame .top .c_top_right"
-    );
-    const UL = document.querySelector("#page" + i + " .frame .top .c_top_left");
-    const DR = document.querySelector("#page" + i + " .frame .c_bottom_right");
-    const DL = document.querySelector("#page" + i + " .frame .c_bottom_left");
+  if (id != "page") {
+    n = 1;
+  }
+  for (let i = 0; i < n; i++) {
+    const R = document.querySelector("#" + id + i + " .frame .right");
+    console.log(R);
+    const L = document.querySelector("#" + id + i + " .frame .left");
+    const D = document.querySelector("#" + id + i + " .frame .bottom .middle");
+    const U = document.querySelector("#" + id + i + " .frame .top .middle");
+    const UR = document.querySelector("#" + id + i + " .frame .top .c_top_right");
+    const UL = document.querySelector("#" + id + i + " .frame .top .c_top_left");
+    const DR = document.querySelector("#" + id + i + " .frame .c_bottom_right");
+    const DL = document.querySelector("#" + id + i + " .frame .c_bottom_left");
     R.style.backgroundImage = "url(./media/frames/" + shuffled[i] + "/R.jpg)";
     R.style.backgroundSize = " 100%" + smallerSideFrameSizes[shuffled[i]];
     L.style.backgroundImage = "url(./media/frames/" + shuffled[i] + "/L.jpg)";
@@ -74,7 +77,7 @@ function generateFrames() {
 
 var bouncingEl = document.getElementsByClassName("bouncing");
 var bouncingElDir = [];
-const navbar = document.querySelector("nav");
+const navbar = document.getElementsByTagName("nav")[0];
 const rightFrame = document.querySelector("#page0 .right");
 const bottomFrame = document.querySelector("#page0 .bottom");
 const leftFrame = document.querySelector("#page0 .left");
@@ -113,7 +116,7 @@ function setup() {
   }
   document.querySelector("footer").addEventListener("click", () => {
     return;
-    document.getElementById("credits_overlay").style.display = "block";
+    document.getElementById("credits_overlay").style.display = "block"; //TODO
   });
   generateFrames();
 }
@@ -194,7 +197,7 @@ async function fill_harmonogram() {
   }
 }
 
-async function showPopup(id) {
+async function showPopup(id) {  //TODO
   const url =
     "https://api-795043680894.europe-central2.run.app/lecture_info?id=" + id;
   //const url = "http://10.0.0.98:8080/harmonogram";
@@ -206,6 +209,15 @@ async function showPopup(id) {
 
     const json = await response.json();
     console.log(json);
+    const overlay = document.getElementById("frame_overlay0");
+    overlay.style.scale = "1";
+    document.getElementById("presenting").innerHTML = json.name;
+    // overlay.getElementById("presentation").innerHTML = json.name;
+    document.getElementById("annotation").innerHTML = json.annotation;
+    document.getElementById("medailon").innerHTML = json.medailon;
+    document.getElementById("room").innerHTML = json.room;
+    document.getElementById("time").innerHTML = json.time;
+    generateFrames(id="frame_overlay");
   } catch (error) {
     console.error(error.message);
   }
