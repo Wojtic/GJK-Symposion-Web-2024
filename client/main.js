@@ -48,7 +48,6 @@ function generateFrames(id = "page") {
   }
   for (let i = 0; i < n; i++) {
     const R = document.querySelector("#" + id + i + " .frame .right");
-    console.log(R);
     const L = document.querySelector("#" + id + i + " .frame .left");
     const D = document.querySelector("#" + id + i + " .frame .bottom .middle");
     const U = document.querySelector("#" + id + i + " .frame .top .middle");
@@ -160,84 +159,164 @@ document.addEventListener("DOMContentLoaded", function (event) {
   cover.addEventListener("animationend", () => {
     cover.style.display = "none";
   });
-  const replikaASCII = `\n  _____            _ _ _         \n |  __ \\          | (_) |        \n | |__) |___ _ __ | |_| | ____ _ \n |  _  // _ \\ '_ \\| | | |/ / _´ |\n | | \\ \\  __/ |_) | | |   < (_| |\n |_|  \\_\\___| .__/|_|_|_|\\_\\__,_|\n            | |                  \n            |_|`;
+  /*const replikaASCII = `\n  _____            _ _ _         \n |  __ \\          | (_) |        \n | |__) |___ _ __ | |_| | ____ _ \n |  _  // _ \\ '_ \\| | | |/ / _´ |\n | | \\ \\  __/ |_) | | |   < (_| |\n |_|  \\_\\___| .__/|_|_|_|\\_\\__,_|\n            | |                  \n            |_|`;
   for (let i = 1; i < Math.round(Math.random() * 10); i++) {
     console.log(replikaASCII.repeat(i));
-  }
+  }*/
 
   fill_harmonogram();
 });
 
-async function fill_harmonogram() {
-  const data = await fetchData();
-  const day_lengths = [4, 4, 2];
-  const room_order = ["Aula", "Sborovna", "USV", "P1.1", "P2.2", "P2.3"];
-  for (let day = 0; day < 3; day++) {
-    const rows = document.querySelectorAll("#table_" + day + " tr");
-    for (let room = 0; room < 6; room++) {
-      let room_data = data[day][room_order[room]];
-      room_data.forEach((lecture) => {
-        let onclick =
-          lecture.name != "" ? "onclick = showPopup(" + lecture.id + ")" : "";
-        rows[room + 1].innerHTML +=
-          "<td " +
-          onclick +
-          " id='lecture_" +
-          lecture.id +
-          "'><p class='presenter'>" +
-          lecture.name +
-          "</p></td>";
-        if (lecture.name != "") {
-          document
-            .getElementById("lecture_" + lecture.id)
-            .classList.add("td_hoverable");
-        }
-      });
-    }
-  }
+async function cfetch(name, url, refresh_time) {
+	let lst="T_"+name;
+	let t=Math.floor(new Date().getTime()/1000);
+	if(lst in localStorage){
+		if(t-localStorage[lst]<refresh_time) {
+			console.log("fetch to for "+url+" was cached "+(t-localStorage[lst])+"s ago");
+			return localStorage[name];
+		}
+	}
+	console.log("fetching "+url);
+	let o=await(fetch(url).then((r)=>{
+		if(r.ok){
+			return r.text();
+		}
+		throw new Error("fetch_error");
+	}).then((o)=>{
+		localStorage[lst]=t;
+		localStorage[name]=o;
+		return o;
+	}).catch((e)=>{
+		console.error("net_error: "+e);
+		if(lst in localStorage){
+			console.log("fallback to cache for "+url+" from "+(t-localStorage[lst])+"s ago");
+			return localStorage[name];
+		}
+		return null;
+	}));
+	return o;
 }
 
-async function showPopup(id) {  //TODO
-  const url =
-    "https://api-795043680894.europe-central2.run.app/lecture_info?id=" + id;
-  //const url = "http://10.0.0.98:8080/harmonogram";
-  try {
-    const response = await fetch(url);
-    if (!response.ok) {
-      throw new Error(`Response status: ${response.status}`);
-    }
+function parsecsv(csv) {
+	let out = [];
+	let rowbuff = [];
+	let buff = "";
+	let was_q = false;
+	let in_q = false;
+	for (let i = 0; i < csv.length; i++) {
+		let c = csv[i];
+		if (c == '"') {
+			in_q = !in_q;
+			if (in_q && was_q) {
+				buff += '"';
+			}
+		} else if (c == '\n' || (c == ',' && !in_q)) {
+			rowbuff.push(buff);
+			buff = "";
+			if (c == '\n') {
+				out.push(rowbuff);
+				rowbuff = [];
+			}
+		} else if (c != '\r') {
+			buff += c;
+		}
+		was_q = c == '"';
+	}
+	return out;
+}
 
-    const json = await response.json();
-    console.log(json);
-    const overlay = document.getElementById("frame_overlay0");
-    overlay.style.scale = "1";
-    document.getElementById("presenting").innerHTML = json.name;
-    // overlay.getElementById("presentation").innerHTML = json.name;
-    document.getElementById("annotation").innerHTML = json.annotation;
-    document.getElementById("medailon").innerHTML = json.medailon;
-    document.getElementById("room").innerHTML = json.room;
-    document.getElementById("time").innerHTML = json.time;
-    generateFrames(id="frame_overlay");
-  } catch (error) {
-    console.error(error.message);
-  }
-  return;
+function addelem(par, elem, content) {
+	let e = document.createElement(elem);
+	if (content != undefined) {
+		e.textContent = content;
+	}
+	return par.appendChild(e);
+}
+
+async function fill_harmonogram() {
+	const url = "https://docs.google.com/spreadsheets/u/0/d/1JpLMEVMGintaOSQBqE2WIoBIHecXauFP_nRzKCdGA3g/export?format=csv&id=1JpLMEVMGintaOSQBqE2WIoBIHecXauFP_nRzKCdGA3g&gid=478852445";
+	const data = parsecsv(await cfetch("harmonogram", url, 480));
+	const days = ["čt", "pá", "so"];
+	let phase = 0;
+	let rooms = [];
+	let cells = {};
+	let cell_meta = {};
+	for (let i = 0; i < data.length; i++) {
+		let r = data[i];
+		if (phase == 0) {
+			phase = 1;
+			for (let day = 0; day < 3; day++) {
+				const table = document.getElementById("table_"+day);
+				addelem(addelem(table, "tr"), "th");
+				for (let j = 2; j < r.length; j++) {
+					let tr = addelem(table, "tr");
+					addelem(tr, "th", r[j]);
+					rooms.push(r[j]);
+				}
+			}
+		} else if (phase == 1) {
+			if (r[0] == "META") {
+				phase = 2;
+				continue;
+			}
+			let start = r[0].split(/[ \t]/);
+			let end = r[1];
+			let day = days.indexOf(start[0]);
+			start = start[start.length-1];
+			const table = document.getElementById("table_"+day);
+			addelem(table.children.item(0), "th", start);
+			for (let j = 2; j < r.length; j++) {
+				let tr = table.children.item(j-1);
+				let td = addelem(tr, "td");
+				addelem(td, "p", r[j]).classList.add("presenter");
+				cells[r[j]] = td;
+				cell_meta[r[j]] = {room:rooms[j],time:["čtvrtek 14.11.", "pátek 15.11.", "sobota 16.11."][day] + start + "-" + end};
+			}
+		} else if (r[0].length > 0) {
+			let id = r[0];
+			let name = r[1];
+			addelem(cells[id], "p", name).classList.add("lectureName");
+			let room = cell_meta[id].room;
+			let time = cell_meta[id].time;
+			cells[id].onclick = () => { showPopup(id, time, room, name); };
+		}
+	}
+}
+
+async function showPopup(id, time, room, name) {
+	const url = "https://docs.google.com/spreadsheets/d/1JpLMEVMGintaOSQBqE2WIoBIHecXauFP_nRzKCdGA3g/export?format=csv&id=1JpLMEVMGintaOSQBqE2WIoBIHecXauFP_nRzKCdGA3g&gid=0";
+	const data = parsecsv(await cfetch("anotace", url, 1800));
+	let anot = "";
+	let meda = "";
+	for (r of data) {
+		if (r[0] == id) {
+			anot = r[2];
+			meda = r[1];
+			break;
+		}
+	}
+	const overlay = document.getElementById("frame_overlay0");
+	overlay.style.scale = "1";
+	document.getElementById("presenting").textContent = id;
+	document.getElementById("presentation").textContent = name;
+	document.getElementById("annotation").innerHTML = anot;
+	document.getElementById("medailon").innerHTML = meda;
+	document.getElementById("room").innerHTML = room;
+	document.getElementById("time").innerHTML = time;
+	generateFrames(id="frame_overlay");
 }
 
 async function fetchData() {
-  const url = "https://api-795043680894.europe-central2.run.app/harmonogram";
-  //const url = "http://10.0.0.98:8080/harmonogram";
-  try {
-    const response = await fetch(url);
-    if (!response.ok) {
-      throw new Error(`Response status: ${response.status}`);
-    }
-
-    const json = await response.json();
-    return json;
-  } catch (error) {
-    console.error(error.message);
-  }
+	try {
+		const response = await fetch(url);
+		if (!response.ok) {
+			throw new Error(`Response status: ${response.status}`);
+		}
+		const json = await response.json();
+		return json;
+	} catch (error) {
+		console.error(error.message);
+	}
 }
 
 document.onmousemove = handleMouseMove;
