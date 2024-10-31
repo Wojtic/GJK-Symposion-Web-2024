@@ -1,56 +1,84 @@
 import pandas as pd
-
 from flask import Flask, request, jsonify
 import os
+import time
 
 app = Flask(__name__)
+
 
 @app.route("/")
 def hello_world():
     return "Hello, World!"
 
+
 URL = r"https://docs.google.com/spreadsheets/d/1lat6R_n_AQRJp1Jztt5YHqsjl9AmY8mEuTLvroDnRiU/export?format=csv"
+ROOM_NAMES = ["P1.1", "P2.2", "Aula", "Sborovna", "USV", "P2.3"]
+ROOMS = len(ROOM_NAMES)
+DAY_LENGTHS = [4, 4, 2]
 
-#response = requests.get(r"https://docs.google.com/spreadsheets/d/1lat6R_n_AQRJp1Jztt5YHqsjl9AmY8mEuTLvroDnRiU/export?format=csv")
-#response_csv = response.content
-#print(response_csv)
 
-day_lengths = [4, 4, 2]
-ROOMS = 6
-def fetch_data():
-    df = pd.read_csv(URL)
-    speakers = df.iloc[:, 0].astype(str).tolist()
+class Harmonogram:
+    def __init__(self):
+        self.fetch_data()
+        self.last_updated = time.time()
 
-    days = []
-    index = 0
-    for i in day_lengths:
-        day = []
-        for j in range(i):
-            room = []
-            for k in range(ROOMS):
-                room.append(speakers[index])
-                # Ehm, use splice
-                index += 1
-            day.append(room)
-        days.append(day)
-    return days
+    def fetch_data(self):
+        df = pd.read_csv(URL)
+        self.names = df.iloc[:, 4].astype(str).tolist()
+        self.times = df.iloc[:, 5].astype(str).tolist()
+        self.rooms = df.iloc[:, 6].astype(str).tolist()
+        self.medailons = df.iloc[:, 7].astype(str).tolist()
+        self.annotations = df.iloc[:, 8].astype(str).tolist()
+    
+    def update_data(self):
+        if time.time() - self.last_updated > 120:
+            self.fetch_data()
+            self.last_updated = time.time()
+
+    def create_table(self):
+        day_offset = 0
+        days = []
+        for day in range(3):
+            day_table = {}
+            for room in range(ROOMS):
+                table_row = []
+                for time in range(DAY_LENGTHS[day]):
+                    index = day_offset + time*ROOMS + room
+                    table_row.append(
+                        {"name": self.names[index], "title": "", "id": index})
+                day_table[ROOM_NAMES[room]] = table_row
+            days.append(day_table)
+            day_offset += DAY_LENGTHS[day] * ROOMS
+        return days
+
+    def get_harmonogram(self):
+        self.update_data()
+        return self.create_table()
+
+    def get_lecture_info(self, index):
+        self.update_data()
+        return {"name": self.names[index], "title": "", "time": self.times[index], "room": self.rooms[index], "medailon": self.medailons[index], "annotation": self.annotations[index]}
+
+
+worker = Harmonogram()
+
 
 @app.route('/harmonogram')
 def harmonogram():
-    days = fetch_data()
-    # if key doesn't exist, returns None
-    #language = request.args.get('language')
+    return _corsify_actual_response(jsonify(worker.get_harmonogram()))
 
-    # if key doesn't exist, returns a 400, bad request error
-    #framework = request.args['framework']
 
-    # if key doesn't exist, returns None
-    #website = request.args.get('website')
-    return _corsify_actual_response(jsonify(days))
+@app.route('/lecture_info')
+def lecture_info():
+    index = request.args.get('id')
+
+    return _corsify_actual_response(jsonify(worker.get_lecture_info(int(index))))
+
 
 def _corsify_actual_response(response):
     response.headers.add("Access-Control-Allow-Origin", "*")
     return response
+
 
 if __name__ == "__main__":
     app.run(debug=True, host="0.0.0.0", port=int(os.environ.get("PORT", 8080)))
