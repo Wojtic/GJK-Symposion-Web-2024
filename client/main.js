@@ -194,8 +194,21 @@ async function fill_harmonogram() {
   }
 }
 
-function showPopup(id) {
-  console.log(id);
+async function showPopup(id) {
+  const url =
+    "https://api-795043680894.europe-central2.run.app/lecture_info?id=" + id;
+  //const url = "http://10.0.0.98:8080/harmonogram";
+  try {
+    const response = await fetch(url);
+    if (!response.ok) {
+      throw new Error(`Response status: ${response.status}`);
+    }
+
+    const json = await response.json();
+    console.log(json);
+  } catch (error) {
+    console.error(error.message);
+  }
   return;
 }
 
