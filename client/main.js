@@ -174,11 +174,29 @@ async function fill_harmonogram() {
     for (let room = 0; room < 6; room++) {
       let room_data = data[day][room_order[room]];
       room_data.forEach((lecture) => {
+        let onclick =
+          lecture.name != "" ? "onclick = showPopup(" + lecture.id + ")" : "";
         rows[room + 1].innerHTML +=
-          "<td><p class='presenter'>" + lecture.name + "</p></td>";
+          "<td " +
+          onclick +
+          " id='lecture_" +
+          lecture.id +
+          "'><p class='presenter'>" +
+          lecture.name +
+          "</p></td>";
+        if (lecture.name != "") {
+          document
+            .getElementById("lecture_" + lecture.id)
+            .classList.add("td_hoverable");
+        }
       });
     }
   }
+}
+
+function showPopup(id) {
+  console.log(id);
+  return;
 }
 
 async function fetchData() {
