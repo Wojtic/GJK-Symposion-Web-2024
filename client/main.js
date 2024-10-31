@@ -182,8 +182,8 @@ async function fill_harmonogram() {
 }
 
 async function fetchData() {
-  //const url = "https://api-795043680894.europe-central2.run.app/harmonogram";
-  const url = "http://10.0.0.98:8080/harmonogram";
+  const url = "https://api-795043680894.europe-central2.run.app/harmonogram";
+  //const url = "http://10.0.0.98:8080/harmonogram";
   try {
     const response = await fetch(url);
     if (!response.ok) {
@@ -286,27 +286,3 @@ function setCSS(scrollPercent) {
       "px";
   }
 }
-
-var countDownDate = new Date("Nov 14, 2024 15:00:00").getTime();
-
-var x = setInterval(function () {
-  var now = new Date().getTime();
-
-  var distance = countDownDate - now;
-
-  var days = Math.floor(distance / (1000 * 60 * 60 * 24));
-  var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-  var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-  var seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-  for (let i = 0; i < 6; i++) {
-    document.getElementsByClassName("countdown_p")[i].innerHTML =
-      days +
-      " dní " +
-      String(hours).padStart(2, "0") +
-      ":" +
-      String(minutes).padStart(2, "0") +
-      ":" +
-      String(seconds).padStart(2, "0");
-  }
-}, 1000);
