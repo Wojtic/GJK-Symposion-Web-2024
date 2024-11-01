@@ -243,6 +243,10 @@ nav .links a {
     margin-bottom: 0.5rem;
 }
 
+#medailon {
+    color: #ececec;
+}
+
 .popup .top_row {
     width: 100%;
     display: flex;
@@ -327,7 +331,7 @@ h3 {
 }
 
 .harmonogram table tr {
-    max-height: 15vh;
+    max-height: 15dvh;
 }
 
 .harmonogram table td {
@@ -405,9 +409,9 @@ footer p {
     position: fixed;
     z-index: 99;
     width: 80vw;
-    height: 80vh;
+    height: 80dvh;
     left: 10vw;
-    top: 10vh;
+    top: 10dvh;
     background-color: rgba(2, 34, 89, 1);
     transition: scale 500ms;
 }
@@ -505,6 +509,57 @@ footer p {
     .frame .c_top_right,
     .frame .c_bottom_left {
         min-width: 4dvh;
+    }
+
+}
+
+@media only screen and (max-width: 1200px) {
+    .popup p {
+        font-size: 1rem;
+    }
+
+    .popup h1 {
+        font-size: 1.5rem;
+    }
+}
+
+@media only screen and (max-width: 800px) {
+    .popup p {
+        font-size: 1rem;
+        margin-bottom: 0.5rem;
+    }
+
+    .popup h1 {
+        font-size: 1.5rem;
+    }
+
+    #frame_overlay0 {
+        width: 90vw;
+        height: 90dvh;
+        left: 5vw;
+        top: 5dvh;
+    }
+
+    .popup {
+        padding: 10px;
+    }
+
+    .popup #medailon {
+        margin-bottom: 0;
+    }
+}
+
+@media only screen and (max-width: 600px) {
+    .popup p {
+        font-size: 0.8rem;
+    }
+
+    .popup {
+        padding: 5px;
+    }
+
+    .popup h1 {
+        font-size: 1.0rem;
     }
 }
 
