@@ -30,6 +30,8 @@ class Harmonogram:
         self.rooms = df.iloc[:, 6].astype(str).tolist()
         self.medailons = df.iloc[:, 7].astype(str).tolist()
         self.annotations = df.iloc[:, 8].astype(str).tolist()
+        self.titles = df.iloc[:, 9].astype(str).tolist()
+        self.titles = [title if title != "nan" else "" for title in self.titles]
     
     def update_data(self):
         if time.time() - self.last_updated > 120:
@@ -46,7 +48,7 @@ class Harmonogram:
                 for time in range(DAY_LENGTHS[day]):
                     index = day_offset + time*ROOMS + room
                     table_row.append(
-                        {"name": self.names[index], "title": "", "id": index})
+                        {"name": self.names[index], "title": self.titles[index], "id": index})
                 day_table[ROOM_NAMES[room]] = table_row
             days.append(day_table)
             day_offset += DAY_LENGTHS[day] * ROOMS
@@ -58,7 +60,7 @@ class Harmonogram:
 
     def get_lecture_info(self, index):
         self.update_data()
-        return {"name": self.names[index], "title": "", "time": self.times[index], "room": self.rooms[index], "medailon": self.medailons[index], "annotation": self.annotations[index]}
+        return {"name": self.names[index], "title": self.titles[index], "time": self.times[index], "room": self.rooms[index], "medailon": self.medailons[index], "annotation": self.annotations[index]}
 
 
 worker = Harmonogram()
