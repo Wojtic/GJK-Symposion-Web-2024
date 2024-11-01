@@ -232,7 +232,12 @@ function addelem(par, elem, content) {
 	}
 	return par.appendChild(e);
 }
-
+function format_time(utct){
+	let d=new Date(utct * 1000);
+	console.log(utct, d);
+	return ("00"+d.getDate()).slice(-2)+"."+("00"+(d.getMonth()+1)).slice(-2)+" "+
+		("00"+d.getHours()).slice(-2)+":"+("00"+d.getMinutes()).slice(-2)+":"+("00"+d.getSeconds()).slice(-2)
+}
 async function fill_harmonogram() {
 	const url = "https://docs.google.com/spreadsheets/u/0/d/1JpLMEVMGintaOSQBqE2WIoBIHecXauFP_nRzKCdGA3g/export?format=csv&id=1JpLMEVMGintaOSQBqE2WIoBIHecXauFP_nRzKCdGA3g&gid=478852445";
 	const data = parsecsv(await cfetch("harmonogram", url, 480));
@@ -281,6 +286,10 @@ async function fill_harmonogram() {
 			cells[id].onclick = () => { showPopup(id, time, room, name); };
 		}
 	}
+	for (const fetch_tms of document.getElementsByClassName("fetch_timestamp")) {
+		let tm = localStorage["T_harmonogram"];
+		fetch_tms.textContent = "Data z " + format_time(tm);
+	}
 }
 
 async function showPopup(id, time, room, name) {
@@ -288,15 +297,14 @@ async function showPopup(id, time, room, name) {
 	const data = parsecsv(await cfetch("anotace", url, 1800));
 	let anot = "";
 	let meda = "";
-	for (r of data) {
+	for (const r of data) {
 		if (r[0] == id) {
 			anot = r[2];
 			meda = r[1];
 			break;
 		}
 	}
-	const overlay = document.getElementById("frame_overlay0");
-	overlay.style.scale = "1";
+	document.getElementById("frame_overlay0").style.scale = "1";
 	document.getElementById("presenting").textContent = id;
 	document.getElementById("presentation").textContent = name;
 	document.getElementById("annotation").innerHTML = anot;
@@ -304,6 +312,7 @@ async function showPopup(id, time, room, name) {
 	document.getElementById("room").innerHTML = room;
 	document.getElementById("time").innerHTML = time;
 	generateFrames(id="frame_overlay");
+	document.getElementById("annot_fetch_time").textContent = "Data z " + format_time(localStorage["T_anotace"]);
 }
 
 async function fetchData() {
