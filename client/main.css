@@ -424,29 +424,6 @@ footer p {
     height: 100%;
 }
 
-.countdown {
-    width: min(20rem, 40vw);
-    position: relative;
-    display: flex;
-    justify-content: space-between;
-}
-
-.countdown a {
-    color: rgb(10, 32, 69) !important;
-}
-
-.countdown p {
-    font-weight: bold;
-    position: absolute;
-    width: 100%;
-    text-align: center;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    font-size: 1.5rem;
-    letter-spacing: 0.2rem;
-}
-
 @media only screen and (max-width: 1250px) {
     nav {
         flex-direction: column;
@@ -507,11 +484,6 @@ footer p {
         margin: 1rem 0 0 0;
     }
 
-    .countdown p {
-        font-size: 1.4rem;
-        letter-spacing: 0.2rem;
-    }
-
 
     .frame .right,
     .frame .left {
@@ -560,11 +532,6 @@ footer p {
     nav .links a {
         font-size: 0.8rem;
         line-height: 1.1rem
-    }
-
-    .countdown p {
-        font-size: 1.0rem;
-        letter-spacing: 0.1rem;
     }
 
     #about {
