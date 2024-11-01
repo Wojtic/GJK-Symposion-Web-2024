@@ -172,7 +172,7 @@ async function cfetch(name, url, refresh_time) {
 	let t=Math.floor(new Date().getTime()/1000);
 	if(lst in localStorage){
 		if(t-localStorage[lst]<refresh_time) {
-			console.log("fetch to for "+url+" was cached "+(t-localStorage[lst])+"s ago");
+			console.log("fetch to "+url+" was cached "+(t-localStorage[lst])+"s ago");
 			return localStorage[name];
 		}
 	}
@@ -234,7 +234,6 @@ function addelem(par, elem, content) {
 }
 function format_time(utct){
 	let d=new Date(utct * 1000);
-	console.log(utct, d);
 	return ("00"+d.getDate()).slice(-2)+"."+("00"+(d.getMonth()+1)).slice(-2)+" "+
 		("00"+d.getHours()).slice(-2)+":"+("00"+d.getMinutes()).slice(-2)+":"+("00"+d.getSeconds()).slice(-2)
 }
@@ -313,19 +312,6 @@ async function showPopup(id, time, room, name) {
 	document.getElementById("time").innerHTML = time;
 	generateFrames(id="frame_overlay");
 	document.getElementById("annot_fetch_time").textContent = "Data z " + format_time(localStorage["T_anotace"]);
-}
-
-async function fetchData() {
-	try {
-		const response = await fetch(url);
-		if (!response.ok) {
-			throw new Error(`Response status: ${response.status}`);
-		}
-		const json = await response.json();
-		return json;
-	} catch (error) {
-		console.error(error.message);
-	}
 }
 
 document.onmousemove = handleMouseMove;
