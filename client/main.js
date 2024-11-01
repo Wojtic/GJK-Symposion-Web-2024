@@ -205,7 +205,6 @@ async function fill_harmonogram() {
 async function showPopup(id) {
   const url =
     "https://api-795043680894.europe-central2.run.app/lecture_info?id=" + id;
-  //const url = "http://10.0.0.98:8080/harmonogram";
   const json = await cachedFetch("anotace" + id, url, 180);
 
   const day_names = { čt: "čtvrtek", pá: "pátek", so: "sobota" };

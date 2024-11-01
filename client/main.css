@@ -259,7 +259,7 @@ nav .links a {
     color: white;
     font-weight: 800;
     font-size: large;
-    text-align: center; 
+    text-align: center;
     cursor: pointer;
 }
 
@@ -327,12 +327,13 @@ h3 {
 }
 
 .harmonogram table tr {
-    margin-bottom: 0.5rem;
     max-height: 15vh;
 }
 
 .harmonogram table td {
     cursor: pointer;
+    min-width: 12rem;
+    padding: 0.2rem;
 }
 
 .harmonogram table td p {
@@ -341,11 +342,13 @@ h3 {
 
 .harmonogram table td .presenter {
     font-weight: bold;
-    margin: 0.5rem;
+    margin: 0.2rem 0.5rem 0.2rem 0.5rem;
 }
 
 .harmonogram table td .lecture {
     margin: 0 0.2rem;
+    font-size: 0.9rem;
+    max-width: 20rem;
 }
 
 .contacts_column {
@@ -543,6 +546,14 @@ footer p {
     }
 
     p {
+        font-size: 0.8rem;
+    }
+
+    .harmonogram table td .lecture {
+        font-size: 0.65rem;
+    }
+
+    .harmonogram table td .presenter {
         font-size: 0.8rem;
     }
 
