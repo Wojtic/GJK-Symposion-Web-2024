@@ -52,8 +52,12 @@ function generateFrames(id = "page") {
     const L = document.querySelector("#" + id + i + " .frame .left");
     const D = document.querySelector("#" + id + i + " .frame .bottom .middle");
     const U = document.querySelector("#" + id + i + " .frame .top .middle");
-    const UR = document.querySelector("#" + id + i + " .frame .top .c_top_right");
-    const UL = document.querySelector("#" + id + i + " .frame .top .c_top_left");
+    const UR = document.querySelector(
+      "#" + id + i + " .frame .top .c_top_right"
+    );
+    const UL = document.querySelector(
+      "#" + id + i + " .frame .top .c_top_left"
+    );
     const DR = document.querySelector("#" + id + i + " .frame .c_bottom_right");
     const DL = document.querySelector("#" + id + i + " .frame .c_bottom_left");
     R.style.backgroundImage = "url(./media/frames/" + shuffled[i] + "/R.jpg)";
@@ -169,7 +173,9 @@ document.addEventListener("DOMContentLoaded", function (event) {
 });
 
 async function fill_harmonogram() {
-  const data = await fetchData();
+  const url = "https://api-795043680894.europe-central2.run.app/harmonogram";
+  const data = await cachedFetch("harmonogram", url, 180);
+  console.log(data);
   const day_lengths = [4, 4, 2];
   const room_order = ["Aula", "Sborovna", "USV", "P1.1", "P2.2", "P2.3"];
   for (let day = 0; day < 3; day++) {
@@ -197,46 +203,62 @@ async function fill_harmonogram() {
   }
 }
 
-async function showPopup(id) {  //TODO
+async function showPopup(id) {
+  //TODO
   const url =
     "https://api-795043680894.europe-central2.run.app/lecture_info?id=" + id;
   //const url = "http://10.0.0.98:8080/harmonogram";
-  try {
-    const response = await fetch(url);
-    if (!response.ok) {
-      throw new Error(`Response status: ${response.status}`);
-    }
+  const json = await cachedFetch("anotace" + id, url, 180);
 
-    const json = await response.json();
-    console.log(json);
-    const overlay = document.getElementById("frame_overlay0");
-    overlay.style.scale = "1";
-    document.getElementById("presenting").innerHTML = json.name;
-    // overlay.getElementById("presentation").innerHTML = json.name;
-    document.getElementById("annotation").innerHTML = json.annotation;
-    document.getElementById("medailon").innerHTML = json.medailon;
-    document.getElementById("room").innerHTML = json.room;
-    document.getElementById("time").innerHTML = json.time;
-    generateFrames(id="frame_overlay");
-  } catch (error) {
-    console.error(error.message);
-  }
+  console.log(json);
+  const overlay = document.getElementById("frame_overlay0");
+  overlay.style.scale = "1";
+  document.getElementById("presenting").innerHTML = json.name;
+  // overlay.getElementById("presentation").innerHTML = json.name;
+  document.getElementById("annotation").innerHTML = json.annotation;
+  document.getElementById("medailon").innerHTML = json.medailon;
+  document.getElementById("room").innerHTML = json.room;
+  document.getElementById("time").innerHTML = json.time;
+  generateFrames((id = "frame_overlay"));
   return;
 }
 
-async function fetchData() {
-  const url = "https://api-795043680894.europe-central2.run.app/harmonogram";
-  //const url = "http://10.0.0.98:8080/harmonogram";
-  try {
-    const response = await fetch(url);
-    if (!response.ok) {
-      throw new Error(`Response status: ${response.status}`);
+async function cachedFetch(name, url, refresh_time) {
+  let lst = "T_" + name;
+  let t = Math.floor(new Date().getTime() / 1000);
+  if (lst in localStorage) {
+    if (t - localStorage[lst] < refresh_time) {
+      console.log(
+        "fetch to " + url + " was cached " + (t - localStorage[lst]) + "s ago"
+      );
+      return JSON.parse(localStorage[name]);
     }
+  }
+  console.log("fetching " + url);
+  let r = await fetch(url);
 
-    const json = await response.json();
-    return json;
+  try {
+    if (r.ok) {
+      const json = await r.json();
+      localStorage[lst] = t;
+      localStorage[name] = JSON.stringify(json);
+      return json;
+    } else {
+      throw new Error("fetch_error");
+    }
   } catch (error) {
     console.error(error.message);
+    console.error("net_error: " + error);
+    if (lst in localStorage) {
+      console.log(
+        "fallback to cache for " +
+          url +
+          " from " +
+          (t - localStorage[lst]) +
+          "s ago"
+      );
+      return localStorage[name];
+    }
   }
 }
 
