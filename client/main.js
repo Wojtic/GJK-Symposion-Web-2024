@@ -208,6 +208,8 @@ async function showPopup(id) {
   //const url = "http://10.0.0.98:8080/harmonogram";
   const json = await cachedFetch("anotace" + id, url, 180);
 
+  const day_names = { čt: "čtvrtek", pá: "pátek", so: "sobota" };
+
   const overlay = document.getElementById("frame_overlay0");
   overlay.style.scale = "1";
   document.getElementById("presenting").innerHTML = json.name;
@@ -215,7 +217,8 @@ async function showPopup(id) {
   document.getElementById("annotation").innerHTML = json.annotation;
   document.getElementById("medailon").innerHTML = json.medailon;
   document.getElementById("room").innerHTML = json.room;
-  document.getElementById("time").innerHTML = json.time;
+  document.getElementById("time").innerHTML =
+    day_names[json.time.slice(0, 2)] + json.time.substring(2);
   generateFrames((id = "frame_overlay"));
   return;
 }
