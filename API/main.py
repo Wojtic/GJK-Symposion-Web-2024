@@ -23,6 +23,7 @@ class Harmonogram:
         self.last_updated = time.time()
 
     def fetch_data(self):
+        print("fetching table")
         df = pd.read_csv(URL)
         self.names = df.iloc[:, 4].astype(str).tolist()
         self.names = [name if name != "-" else "" for name in self.names]
@@ -33,8 +34,8 @@ class Harmonogram:
         self.titles = df.iloc[:, 9].astype(str).tolist()
         self.titles = [title if title != "nan" else "" for title in self.titles]
     
-    def update_data(self):
-        if time.time() - self.last_updated > 120:
+    def update_data(self, force=False):
+        if force or (time.time() - self.last_updated > 30*60):
             self.fetch_data()
             self.last_updated = time.time()
 
@@ -69,6 +70,11 @@ worker = Harmonogram()
 @app.route('/harmonogram')
 def harmonogram():
     return _corsify_actual_response(jsonify(worker.get_harmonogram()))
+
+@app.route('/force_fetch')
+def force_fetch():
+    worker.update_data(True)
+    return _corsify_actual_response(jsonify("Data updated"))
 
 
 @app.route('/lecture_info')
