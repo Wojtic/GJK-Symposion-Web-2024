@@ -170,16 +170,21 @@ document.addEventListener("DOMContentLoaded", function (event) {
 
   fill_harmonogram();
 });
+let names = [];
+let times = [];
+let rooms = [];
+let medailons = [];
+let annotations = [];
+let titles = [];
+let parsedTable = [];
 
-async function fetchDirectly(URL) {
+async function fetchDirectly() {
+  const URL =
+    "https://docs.google.com/spreadsheets/d/1lat6R_n_AQRJp1Jztt5YHqsjl9AmY8mEuTLvroDnRiU/export?format=csv";
+  if (parsedTable.length > 0) return parsedTable;
   let csv = await fetch(URL);
   csv = parseCSV(await csv.text());
-  let names = [];
-  let times = [];
-  let rooms = [];
-  let medailons = [];
-  let annotations = [];
-  let titles = [];
+
   const DAY_LENGTHS = [4, 5, 2];
   const ROOM_NAMES = ["P1.1", "P2.2", "Aula", "Sborovna", "USV", "P2.3"];
   const ROOMS = ROOM_NAMES.length;
@@ -215,7 +220,9 @@ async function fetchDirectly(URL) {
     return days;
   };
 
-  return create_table();
+  parsedTable = create_table();
+
+  return parsedTable;
 }
 
 function parseCSV(str) {
@@ -262,14 +269,12 @@ function parseCSV(str) {
 
 async function fill_harmonogram() {
   const getData = async () => {
-    const url = "xhttps://api-795043680894.europe-central2.run.app/harmonogram";
+    const url = "https://api-795043680894.europe-central2.run.app/harmonogram";
     let data;
     try {
       data = await cachedFetch("harmonogram", url, 180);
     } catch {
-      const url_csv =
-        "https://docs.google.com/spreadsheets/d/1lat6R_n_AQRJp1Jztt5YHqsjl9AmY8mEuTLvroDnRiU/export?format=csv";
-      data = await fetchDirectly(url_csv);
+      data = await fetchDirectly();
     }
     return data;
   };
@@ -303,10 +308,27 @@ async function fill_harmonogram() {
 }
 
 async function showPopup(id) {
-  const url =
-    "https://api-795043680894.europe-central2.run.app/lecture_info?id=" + id;
-  const json = await cachedFetch("anotace" + id, url, 180);
-
+  const getData = async () => {
+    const url =
+      "https://api-795043680894.europe-central2.run.app/lecture_info?id=" + id;
+    try {
+      return await cachedFetch("anotace" + id, url, 180);
+    } catch {
+      if (parsedTable.length == 0) {
+        console.log(parsedTable);
+        await fetchDirectly();
+      }
+      return {
+        name: names[id],
+        title: titles[id],
+        annotation: annotations[id],
+        medailon: medailons[id],
+        room: rooms[id],
+        time: times[id],
+      };
+    }
+  };
+  const json = await getData();
   const day_names = { čt: "čtvrtek", pá: "pátek", so: "sobota" };
 
   const overlay = document.getElementById("frame_overlay0");
