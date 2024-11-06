@@ -185,7 +185,7 @@ async function fetchDirectly() {
   let csv = await fetch(URL);
   csv = parseCSV(await csv.text());
 
-  const DAY_LENGTHS = [4, 5, 2];
+  const DAY_LENGTHS = [4, 5, 3];
   const ROOM_NAMES = ["P1.1", "P2.2", "Aula", "Sborovna", "USV", "P2.3"];
   const ROOMS = ROOM_NAMES.length;
   for (let i = 1; i < DAY_LENGTHS.reduce((a, b) => a + b * ROOMS, 0) + 1; i++) {

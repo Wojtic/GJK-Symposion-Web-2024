@@ -14,7 +14,7 @@ def hello_world():
 URL = r"https://docs.google.com/spreadsheets/d/1lat6R_n_AQRJp1Jztt5YHqsjl9AmY8mEuTLvroDnRiU/export?format=csv"
 ROOM_NAMES = ["P1.1", "P2.2", "Aula", "Sborovna", "USV", "P2.3"]
 ROOMS = len(ROOM_NAMES)
-DAY_LENGTHS = [4, 5, 2]
+DAY_LENGTHS = [4, 5, 3]
 
 
 class Harmonogram:
