@@ -171,9 +171,109 @@ document.addEventListener("DOMContentLoaded", function (event) {
   fill_harmonogram();
 });
 
+async function fetchDirectly(URL) {
+  let csv = await fetch(URL);
+  csv = parseCSV(await csv.text());
+  let names = [];
+  let times = [];
+  let rooms = [];
+  let medailons = [];
+  let annotations = [];
+  let titles = [];
+  const DAY_LENGTHS = [4, 5, 2];
+  const ROOM_NAMES = ["P1.1", "P2.2", "Aula", "Sborovna", "USV", "P2.3"];
+  const ROOMS = ROOM_NAMES.length;
+  for (let i = 1; i < DAY_LENGTHS.reduce((a, b) => a + b * ROOMS, 0) + 1; i++) {
+    names.push(csv[i][4] == "-" ? "" : csv[i][4]);
+    times.push(csv[i][5]);
+    rooms.push(csv[i][6]);
+    medailons.push(csv[i][7]);
+    annotations.push(csv[i][8]);
+    titles.push(csv[i][9]);
+  }
+
+  const create_table = () => {
+    let day_offset = 0;
+    let days = [];
+    for (let day = 0; day < 3; day++) {
+      let day_table = {};
+      for (let room = 0; room < ROOMS; room++) {
+        table_row = [];
+        for (let time = 0; time < DAY_LENGTHS[day]; time++) {
+          let index = day_offset + time * ROOMS + room;
+          table_row.push({
+            name: names[index],
+            title: titles[index],
+            id: index,
+          });
+        }
+        day_table[ROOM_NAMES[room]] = table_row;
+      }
+      days.push(day_table);
+      day_offset += DAY_LENGTHS[day] * ROOMS;
+    }
+    return days;
+  };
+
+  return create_table();
+}
+
+function parseCSV(str) {
+  const arr = [];
+  let quote = false;
+  for (let row = 0, col = 0, c = 0; c < str.length; c++) {
+    let cc = str[c],
+      nc = str[c + 1];
+    arr[row] = arr[row] || [];
+    arr[row][col] = arr[row][col] || "";
+    if (cc == '"' && quote && nc == '"') {
+      arr[row][col] += cc;
+      ++c;
+      continue;
+    }
+    if (cc == '"') {
+      quote = !quote;
+      continue;
+    }
+    if (cc == "," && !quote) {
+      ++col;
+      continue;
+    }
+    if (cc == "\r" && nc == "\n" && !quote) {
+      ++row;
+      col = 0;
+      ++c;
+      continue;
+    }
+    if (cc == "\n" && !quote) {
+      ++row;
+      col = 0;
+      continue;
+    }
+    if (cc == "\r" && !quote) {
+      ++row;
+      col = 0;
+      continue;
+    }
+    arr[row][col] += cc;
+  }
+  return arr;
+}
+
 async function fill_harmonogram() {
-  const url = "https://api-795043680894.europe-central2.run.app/harmonogram";
-  const data = await cachedFetch("harmonogram", url, 180);
+  const getData = async () => {
+    const url = "xhttps://api-795043680894.europe-central2.run.app/harmonogram";
+    let data;
+    try {
+      data = await cachedFetch("harmonogram", url, 180);
+    } catch {
+      const url_csv =
+        "https://docs.google.com/spreadsheets/d/1lat6R_n_AQRJp1Jztt5YHqsjl9AmY8mEuTLvroDnRiU/export?format=csv";
+      data = await fetchDirectly(url_csv);
+    }
+    return data;
+  };
+  const data = await getData();
   const room_order = ["Aula", "Sborovna", "USV", "P1.1", "P2.2", "P2.3"];
   for (let day = 0; day < 3; day++) {
     const rows = document.querySelectorAll("#table_" + day + " tr");
