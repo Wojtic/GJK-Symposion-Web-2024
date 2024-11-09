@@ -308,10 +308,16 @@ async function fill_harmonogram() {
     return data;
   };
   const data = await getData();
-  const room_order = ["Aula", "Sborovna", "USV", "P1.1", "P2.2", "P2.3"];
+  let room_order = ["Aula", "Sborovna", "USV", "P1.1", "P2.2", "P2.3"];
   for (let day = 0; day < 3; day++) {
     const rows = document.querySelectorAll("#table_" + day + " tr");
     for (let room = 0; room < 6; room++) {
+      if (day == 2) {
+        room_order = ["Sborovna", "USV", "P2.2", "P2.3"];
+      }
+      if (day == 2 && room >= 4) {
+        continue;
+      }
       let room_data = data[day][room_order[room]];
       room_data.forEach((lecture) => {
         let onclick =
