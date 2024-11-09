@@ -118,8 +118,37 @@ function setup() {
       ).toString() + "px";
   }
   document.querySelector("footer").addEventListener("click", () => {
-    return;
-    document.getElementById("credits_overlay").style.display = "block"; //TODO
+    const overlay = document.getElementById("frame_overlay0");
+    overlay.style.scale = "1";
+    generateFrames((id = "frame_overlay"));
+    var video = document.createElement("video");
+    video.setAttribute("playsinline", "");
+    video.setAttribute("autoplay", "");
+    video.setAttribute("muted", "");
+
+    var constraints = {
+      audio: false,
+      video: {
+        facingMode: "user",
+      },
+    };
+
+    /* Stream it to video element */
+    navigator.mediaDevices
+      .getUserMedia(constraints)
+      .then(function success(stream) {
+        video.srcObject = stream;
+      });
+    document.querySelector("#frame_overlay0 .horizontal").appendChild(video);
+    document.querySelector("#frame_overlay0 .content").style.display = "none";
+
+    overlay.addEventListener("click", function eventHandler() {
+      document.querySelector("#frame_overlay0 .horizontal").removeChild(video);
+      document.querySelector("#frame_overlay0 .content").style.display =
+        "inherit";
+      this.style.scale = 0;
+      this.removeEventListener("click", eventHandler);
+    });
   });
   generateFrames();
 }

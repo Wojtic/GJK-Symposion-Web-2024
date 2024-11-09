@@ -26,7 +26,7 @@ class Harmonogram:
         print("fetching table")
         df = pd.read_csv(URL)
         self.names = df.iloc[:, 4].astype(str).tolist()
-        self.names = [name if ((name != "-") or (name != "nan")) else "" for name in self.names]
+        self.names = [name if ((name != "-") and (name != "nan")) else "" for name in self.names]
         self.times = df.iloc[:, 5].astype(str).tolist()
         self.rooms = df.iloc[:, 6].astype(str).tolist()
         self.medailons = df.iloc[:, 7].astype(str).tolist()
