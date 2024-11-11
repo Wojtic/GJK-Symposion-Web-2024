@@ -233,9 +233,6 @@ nav .links a {
     margin-top: 2rem;
 }
 
-.column h1 {
-    margin: 3rem 0 0 0;
-}
 
 .popup {
     padding: 20px;
@@ -495,10 +492,6 @@ footer p {
         padding: 0.5rem;
     }
 
-    .column h1 {
-        margin: 1rem 0 0 0;
-    }
-
 
     .frame .right,
     .frame .left {
@@ -585,10 +578,6 @@ footer p {
 
     .column {
         padding: 0.5rem;
-    }
-
-    .column h1 {
-        margin: 0 0 0 0;
     }
 }
 

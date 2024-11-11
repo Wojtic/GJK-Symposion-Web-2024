@@ -298,7 +298,9 @@ function parseCSV(str) {
 
 async function fill_harmonogram() {
   const getData = async () => {
-    const url = "https://api-795043680894.europe-central2.run.app/harmonogram";
+    const time = new Date().getTime();
+    const url =
+      "https://api-795043680894.europe-central2.run.app/harmonogram?t=" + time;
     let data;
     try {
       data = await cachedFetch("harmonogram", url, 180);
