@@ -321,10 +321,11 @@ async function fill_harmonogram() {
         continue;
       }
       let room_data = data[day][room_order[room]];
-      room_data.forEach((lecture) => {
+	  for (let i = 0; i < room_data.length; i++) {
+		let lecture = room_data[i];
         let onclick =
           lecture.name != "" ? "onclick = showPopup(" + lecture.id + ")" : "";
-        rows[room + 1].innerHTML +=
+        rows[i + 1].innerHTML +=
           "<td " +
           onclick +
           " id='lecture_" +
@@ -339,7 +340,7 @@ async function fill_harmonogram() {
             .getElementById("lecture_" + lecture.id)
             .classList.add("td_hoverable");
         }
-      });
+	  }
     }
   }
 }
