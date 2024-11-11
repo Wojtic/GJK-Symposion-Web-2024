@@ -436,6 +436,11 @@ footer p {
     height: 100%;
 }
 
+#frame_overlay0 .content {
+    height: 64dvh;
+    overflow: scroll;
+}
+
 @media only screen and (max-width: 1250px) {
     nav {
         flex-direction: column;
@@ -486,6 +491,10 @@ footer p {
 
     p {
         font-size: 0.9rem;
+    }
+
+    #frame_overlay0 .content {
+        height: 72dvh;
     }
 
     .column {
@@ -542,6 +551,10 @@ footer p {
         height: 90dvh;
         left: 5vw;
         top: 5dvh;
+    }
+
+    #frame_overlay0 .content {
+        height: 82dvh;
     }
 
     .popup {
