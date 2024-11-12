@@ -101,10 +101,6 @@ video {
     left: 0;
 }
 
-.content {
-    flex-grow: 1;
-}
-
 .frame {
     width: 100%;
     height: 100%;
@@ -164,7 +160,10 @@ video {
     flex-direction: column;
     align-items: center;
     width: calc(100% - 16vh);
+    flex-grow: 1;
     height: 100%;
+    max-height: 84dvh;
+    overflow-y: scroll;
 }
 
 .content p {
@@ -424,18 +423,6 @@ footer p {
     transition: scale 500ms;
 }
 
-.content {
-    background: linear-gradient(180deg, rgba(8, 47, 65, 0.9) 0%, rgba(73, 120, 143, 0.9) 100%);
-    padding: 20px;
-    color: white;
-    font-size: large;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: calc(100% - 16vh);
-    height: 100%;
-}
-
 #frame_overlay0 .content {
     height: 64dvh;
     overflow: scroll;
@@ -479,6 +466,7 @@ footer p {
 
     .content {
         padding: 5px;
+        max-height: 92dvh;
     }
 
     h3 {
