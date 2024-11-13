@@ -320,12 +320,17 @@ async function fill_harmonogram() {
       if (day == 2 && room >= 4) {
         continue;
       }
+      let afterLaunch = 0;
       let room_data = data[day][room_order[room]];
-	  for (let i = 0; i < room_data.length; i++) {
-		let lecture = room_data[i];
+      for (let i = 0; i < room_data.length; i++) {
+        if (i > 1 && day != 2) afterLaunch = 1;
+        if (i == 5) {
+          continue;
+        }
+        let lecture = room_data[i];
         let onclick =
           lecture.name != "" ? "onclick = showPopup(" + lecture.id + ")" : "";
-        rows[i + 1].innerHTML +=
+        rows[i + 1 + afterLaunch].innerHTML +=
           "<td " +
           onclick +
           " id='lecture_" +
@@ -340,7 +345,7 @@ async function fill_harmonogram() {
             .getElementById("lecture_" + lecture.id)
             .classList.add("td_hoverable");
         }
-	  }
+      }
     }
   }
 }
