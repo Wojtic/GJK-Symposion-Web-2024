@@ -411,7 +411,8 @@ footer p {
     font-size: min(1rem, 2vw);
 }
 
-#frame_overlay0 {
+#frame_overlay0,
+#frame_evening_overlay0 {
     box-shadow: 0px 0px 10px 10px rgba(0, 0, 0, 0.3);
     position: fixed;
     z-index: 99;
@@ -423,7 +424,9 @@ footer p {
     transition: scale 500ms;
 }
 
-#frame_overlay0 .content {
+
+#frame_overlay0 .content,
+#frame_evening_overlay0 .content {
     height: 64dvh;
     overflow: scroll;
 }
@@ -481,7 +484,8 @@ footer p {
         font-size: 0.9rem;
     }
 
-    #frame_overlay0 .content {
+    #frame_overlay0 .content,
+    #frame_evening_overlay0 .content {
         height: 72dvh;
     }
 
@@ -541,7 +545,8 @@ footer p {
         top: 5dvh;
     }
 
-    #frame_overlay0 .content {
+    #frame_overlay0 .content,
+    #frame_evening_overlay0 .content {
         height: 82dvh;
     }
 

@@ -207,6 +207,26 @@ let annotations = [];
 let titles = [];
 let parsedTable = [];
 
+let evening_events = [[], [], []];
+
+function evening_popup(day) {
+  /*
+  for (let i = 0; i < evening_events[day].length; i++) {
+
+    console.log(evening_events[day]);
+  }*/
+  const overlay = document.getElementById("frame_evening_overlay0");
+  if (day == 0) {
+    document.getElementById("evening_ctvrtek").style.display = "unset";
+    document.getElementById("evening_patek").style.display = "none";
+  } else {
+    document.getElementById("evening_ctvrtek").style.display = "none";
+    document.getElementById("evening_patek").style.display = "unset";
+  }
+  overlay.style.scale = "1";
+  generateFrames((id = "frame_evening_overlay"));
+}
+
 async function fetchDirectly() {
   const URL =
     "https://docs.google.com/spreadsheets/d/1lat6R_n_AQRJp1Jztt5YHqsjl9AmY8mEuTLvroDnRiU/export?format=csv";
@@ -324,7 +344,8 @@ async function fill_harmonogram() {
       let room_data = data[day][room_order[room]];
       for (let i = 0; i < room_data.length; i++) {
         if (i > 1 && day != 2) afterLaunch = 1;
-        if (i == 5) {
+        if ((day == 0 && i == 4) || (day == 1 && i == 5)) {
+          evening_events[day].push(room_data[i]);
           continue;
         }
         let lecture = room_data[i];
