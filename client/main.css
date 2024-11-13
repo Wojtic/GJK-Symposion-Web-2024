@@ -91,6 +91,7 @@ video {
     top: 0;
     left: 0;
     transform-origin: center;
+    transition: scale 20ms;
 }
 
 .bgr {
