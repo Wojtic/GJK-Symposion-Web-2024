@@ -405,6 +405,7 @@ async function showPopup(id) {
   document.getElementById("time").innerHTML =
     day_names[json.time.slice(0, 2)] + json.time.substring(2);
   generateFrames((id = "frame_overlay"));
+  document.getElementById("medailon").focus();
   return;
 }
 
