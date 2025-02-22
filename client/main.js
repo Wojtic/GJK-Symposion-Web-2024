@@ -228,13 +228,14 @@ function evening_popup(day) {
 }
 
 async function fetchDirectly() {
-  const URL =
+  /*const URL =
     "https://docs.google.com/spreadsheets/d/1lat6R_n_AQRJp1Jztt5YHqsjl9AmY8mEuTLvroDnRiU/export?format=csv";
   if (parsedTable.length > 0) return parsedTable;
   let csv = await fetch(URL);
   csv = parseCSV(await csv.text());
+*/
 
-  const DAY_LENGTHS = [4, 5, 3];
+  const DAY_LENGTHS = [5, 6, 3];
   const ROOM_NAMES = ["P1.1", "P2.2", "Aula", "Sborovna", "USV", "P2.3"];
   const ROOMS = ROOM_NAMES.length;
   for (let i = 1; i < DAY_LENGTHS.reduce((a, b) => a + b * ROOMS, 0) + 1; i++) {
@@ -329,7 +330,9 @@ async function fill_harmonogram() {
     }
     return data;
   };
-  const data = await getData();
+  //const data = await getData();
+  const data = await fetchDirectly();
+
   let room_order = ["Aula", "Sborovna", "USV", "P1.1", "P2.2", "P2.3"];
   for (let day = 0; day < 3; day++) {
     const rows = document.querySelectorAll("#table_" + day + " tr");
@@ -372,14 +375,13 @@ async function fill_harmonogram() {
 }
 
 async function showPopup(id) {
-  const getData = async () => {
+  /*const getData = async () => {
     const url =
       "https://api-795043680894.europe-central2.run.app/lecture_info?id=" + id;
     try {
       return await cachedFetch("anotace" + id, url, 180);
     } catch {
       if (parsedTable.length == 0) {
-        console.log(parsedTable);
         await fetchDirectly();
       }
       return {
@@ -392,7 +394,15 @@ async function showPopup(id) {
       };
     }
   };
-  const json = await getData();
+  const json = await getData();*/
+  const json = {
+    name: names[id],
+    title: titles[id],
+    annotation: annotations[id],
+    medailon: medailons[id],
+    room: rooms[id],
+    time: times[id],
+  };
   const day_names = { čt: "čtvrtek", pá: "pátek", so: "sobota" };
 
   const overlay = document.getElementById("frame_overlay0");

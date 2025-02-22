@@ -1,9 +1,5 @@
 # GJK-Symposion-Web-2024
 
-## Stránky
-Replika jako
-O akci
-Čtvrtek
-Pátek
-Sobota
-Kontakt/credits
+Website for the yearly Symposion event at the Johannes Kepler Gymnasium in Prague.
+
+Revert last commit to get version that updates according to the google sheets table!
